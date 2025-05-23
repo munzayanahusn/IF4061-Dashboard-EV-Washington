@@ -1,0 +1,330 @@
+County,charging_station_count,Year
+Adams,2,2017
+Adams,3,2018
+Adams,4,2019
+Adams,3,2020
+Adams,3,2021
+Adams,3,2022
+Adams,3,2023
+Adams,5,2024
+Adams,6,2025
+Asotin,1,2017
+Asotin,2,2018
+Asotin,1,2019
+Asotin,1,2020
+Asotin,1,2021
+Asotin,1,2022
+Asotin,1,2023
+Asotin,3,2024
+Asotin,3,2025
+Benton,9,2017
+Benton,12,2018
+Benton,12,2019
+Benton,16,2020
+Benton,16,2021
+Benton,20,2022
+Benton,19,2023
+Benton,24,2024
+Benton,24,2025
+Chelan,16,2017
+Chelan,19,2018
+Chelan,23,2019
+Chelan,35,2020
+Chelan,35,2021
+Chelan,35,2022
+Chelan,36,2023
+Chelan,34,2024
+Chelan,48,2025
+Clallam,14,2017
+Clallam,20,2018
+Clallam,21,2019
+Clallam,24,2020
+Clallam,27,2021
+Clallam,26,2022
+Clallam,39,2023
+Clallam,43,2024
+Clallam,38,2025
+Clark,27,2017
+Clark,26,2018
+Clark,36,2019
+Clark,45,2020
+Clark,67,2021
+Clark,72,2022
+Clark,94,2023
+Clark,110,2024
+Clark,109,2025
+Columbia,1,2019
+Columbia,1,2020
+Columbia,3,2021
+Columbia,3,2022
+Columbia,2,2023
+Columbia,2,2024
+Columbia,2,2025
+Cowlitz,5,2017
+Cowlitz,6,2018
+Cowlitz,6,2019
+Cowlitz,7,2020
+Cowlitz,8,2021
+Cowlitz,9,2022
+Cowlitz,9,2023
+Cowlitz,9,2024
+Cowlitz,10,2025
+Douglas,3,2017
+Douglas,3,2018
+Douglas,3,2019
+Douglas,4,2020
+Douglas,4,2021
+Douglas,4,2022
+Douglas,6,2023
+Douglas,8,2024
+Douglas,7,2025
+Ferry,1,2017
+Ferry,1,2018
+Ferry,1,2019
+Ferry,1,2020
+Franklin,3,2017
+Franklin,4,2018
+Franklin,5,2019
+Franklin,5,2020
+Franklin,4,2021
+Franklin,7,2022
+Franklin,10,2023
+Franklin,13,2024
+Franklin,20,2025
+Grant,5,2017
+Grant,7,2018
+Grant,7,2019
+Grant,10,2020
+Grant,11,2021
+Grant,10,2022
+Grant,11,2023
+Grant,12,2024
+Grant,12,2025
+Grays Harbor,3,2017
+Grays Harbor,7,2018
+Grays Harbor,9,2019
+Grays Harbor,8,2020
+Grays Harbor,10,2021
+Grays Harbor,11,2022
+Grays Harbor,19,2023
+Grays Harbor,21,2024
+Grays Harbor,16,2025
+Island,7,2017
+Island,7,2018
+Island,8,2019
+Island,8,2020
+Island,8,2021
+Island,8,2022
+Island,10,2023
+Island,13,2024
+Island,13,2025
+Jefferson,1,2022
+Jefferson,2,2023
+Jefferson,4,2024
+Jefferson,4,2025
+King,364,2017
+King,404,2018
+King,457,2019
+King,515,2020
+King,850,2021
+King,822,2022
+King,1037,2023
+King,1204,2024
+King,1325,2025
+Kitsap,22,2017
+Kitsap,23,2018
+Kitsap,24,2019
+Kitsap,28,2020
+Kitsap,32,2021
+Kitsap,39,2022
+Kitsap,46,2023
+Kitsap,54,2024
+Kitsap,60,2025
+Kittitas,9,2017
+Kittitas,9,2018
+Kittitas,8,2019
+Kittitas,9,2020
+Kittitas,10,2021
+Kittitas,12,2022
+Kittitas,16,2023
+Kittitas,18,2024
+Kittitas,17,2025
+Klickitat,1,2021
+Klickitat,3,2022
+Klickitat,6,2023
+Klickitat,6,2024
+Klickitat,8,2025
+Lewis,5,2017
+Lewis,5,2018
+Lewis,6,2019
+Lewis,4,2020
+Lewis,6,2021
+Lewis,7,2022
+Lewis,21,2023
+Lewis,27,2024
+Lewis,29,2025
+Lincoln,1,2017
+Lincoln,1,2018
+Lincoln,1,2019
+Lincoln,1,2020
+Lincoln,1,2021
+Lincoln,3,2022
+Lincoln,3,2023
+Lincoln,4,2024
+Lincoln,5,2025
+Mason,5,2017
+Mason,5,2018
+Mason,4,2019
+Mason,5,2020
+Mason,5,2021
+Mason,6,2022
+Mason,7,2023
+Mason,7,2024
+Mason,6,2025
+Okanogan,8,2017
+Okanogan,10,2018
+Okanogan,10,2019
+Okanogan,10,2020
+Okanogan,10,2021
+Okanogan,10,2022
+Okanogan,10,2023
+Okanogan,13,2024
+Okanogan,15,2025
+Pacific,3,2017
+Pacific,4,2018
+Pacific,3,2019
+Pacific,3,2020
+Pacific,3,2021
+Pacific,3,2022
+Pacific,3,2023
+Pacific,8,2024
+Pacific,4,2025
+Pend Oreille,1,2021
+Pend Oreille,1,2022
+Pend Oreille,2,2023
+Pend Oreille,1,2024
+Pend Oreille,1,2025
+Pierce,61,2017
+Pierce,67,2018
+Pierce,78,2019
+Pierce,86,2020
+Pierce,122,2021
+Pierce,126,2022
+Pierce,136,2023
+Pierce,144,2024
+Pierce,148,2025
+San Juan,3,2017
+San Juan,13,2018
+San Juan,14,2019
+San Juan,14,2020
+San Juan,14,2021
+San Juan,11,2022
+San Juan,19,2023
+San Juan,21,2024
+San Juan,20,2025
+Skagit,13,2017
+Skagit,13,2018
+Skagit,15,2019
+Skagit,20,2020
+Skagit,28,2021
+Skagit,33,2022
+Skagit,41,2023
+Skagit,43,2024
+Skagit,41,2025
+Skamania,2,2017
+Skamania,4,2018
+Skamania,2,2019
+Skamania,2,2020
+Skamania,2,2021
+Skamania,2,2022
+Skamania,2,2023
+Skamania,2,2024
+Skamania,3,2025
+Snohomish,42,2017
+Snohomish,46,2018
+Snohomish,64,2019
+Snohomish,80,2020
+Snohomish,97,2021
+Snohomish,98,2022
+Snohomish,123,2023
+Snohomish,137,2024
+Snohomish,131,2025
+Spokane,22,2017
+Spokane,61,2018
+Spokane,58,2019
+Spokane,70,2020
+Spokane,73,2021
+Spokane,77,2022
+Spokane,114,2023
+Spokane,130,2024
+Spokane,146,2025
+Stevens,1,2018
+Stevens,1,2019
+Stevens,2,2020
+Stevens,2,2021
+Stevens,3,2022
+Stevens,3,2023
+Stevens,4,2024
+Stevens,4,2025
+Thurston,33,2017
+Thurston,34,2018
+Thurston,34,2019
+Thurston,40,2020
+Thurston,57,2021
+Thurston,57,2022
+Thurston,65,2023
+Thurston,79,2024
+Thurston,80,2025
+WA,716,2017
+WA,857,2018
+WA,969,2019
+WA,1123,2020
+WA,1593,2021
+WA,1611,2022
+WA,2039,2023
+WA,2368,2024
+WA,2528,2025
+Wahkiakum,2,2018
+Wahkiakum,2,2019
+Wahkiakum,2,2020
+Wahkiakum,2,2021
+Wahkiakum,2,2022
+Wahkiakum,3,2023
+Wahkiakum,3,2024
+Wahkiakum,3,2025
+Walla Walla,7,2017
+Walla Walla,8,2018
+Walla Walla,11,2019
+Walla Walla,17,2020
+Walla Walla,17,2021
+Walla Walla,20,2022
+Walla Walla,24,2023
+Walla Walla,27,2024
+Walla Walla,28,2025
+Whatcom,13,2017
+Whatcom,17,2018
+Whatcom,22,2019
+Whatcom,27,2020
+Whatcom,33,2021
+Whatcom,38,2022
+Whatcom,44,2023
+Whatcom,84,2024
+Whatcom,87,2025
+Whitman,5,2017
+Whitman,8,2018
+Whitman,9,2019
+Whitman,9,2020
+Whitman,8,2021
+Whitman,8,2022
+Whitman,12,2023
+Whitman,14,2024
+Whitman,16,2025
+Yakima,2,2017
+Yakima,5,2018
+Yakima,9,2019
+Yakima,11,2020
+Yakima,22,2021
+Yakima,20,2022
+Yakima,41,2023
+Yakima,37,2024
+Yakima,39,2025
