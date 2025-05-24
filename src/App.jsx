@@ -1,4 +1,6 @@
+import { useState } from "react";
 import "./App.css";
+import RatioCard from "./components/RatioCard";
 
 function App() {
   return (
@@ -30,9 +32,7 @@ function App() {
           {/* Right Column - Sidebar */}
           <div className="xl:col-span-1 space-y-6">
             {/* EV-to-Charger Ratio Card */}
-            <div className="bg-card p-4 lg:p-6">
-              <span className="text-lg">Ratio Card</span>
-            </div>
+            <RatioCard />
 
             {/* EV Mix Card */}
             <div className="bg-card p-4 lg:p-6">
