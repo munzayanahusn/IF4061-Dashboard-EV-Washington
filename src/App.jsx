@@ -2,7 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import RatioCard from "./components/RatioCard";
 import BivariateMap from "./components/BivariateMap";
-import BubblePlotMap from "./components/BubblePlotMap"
+import ChoroplethMap from "./components/ChoroplethMap";
+import BubblePlotMap from "./components/BubblePlotMap";
 
 function App() {
   const [selectedCounty, setSelectedCounty] = useState("WA");
@@ -39,8 +40,11 @@ function App() {
             <div className="bg-card p-4 lg:p-6 min-h-[400px] lg:min-h-[500px]">
               {/* <span className="text-lg">Map Component</span> */}
               {selectedCounty === "WA" ? (
-                <BivariateMap 
-                  width={1200} 
+                // <BivariateMap 
+                //   width={1200} 
+                //   onCountyClick={handleCountyClick}
+                // />
+                <ChoroplethMap 
                   onCountyClick={handleCountyClick}
                 />
               ) : (
