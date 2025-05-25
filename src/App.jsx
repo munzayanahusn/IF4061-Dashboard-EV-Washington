@@ -4,6 +4,7 @@ import RatioCard from "./components/RatioCard";
 import BivariateMap from "./components/BivariateMap";
 import ChoroplethMap from "./components/ChoroplethMap";
 import BubblePlotMap from "./components/BubblePlotMap";
+import TrendCard from "./components/TrendCard";
 
 function App() {
   const [selectedCounty, setSelectedCounty] = useState("WA");
@@ -57,7 +58,8 @@ function App() {
 
             {/* Trend Section */}
             <div className="bg-card p-4 lg:p-6 min-h-[300px] lg:min-h-[350px]">
-              <span className="text-lg">EV & Charging Station Trend</span>
+              {/* <span className="text-lg">EV & Charging Station Trend</span> */}
+              <TrendCard />
             </div>
           </div>
 
