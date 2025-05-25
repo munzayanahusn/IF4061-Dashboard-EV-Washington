@@ -4,13 +4,14 @@ const ChoroplethLegendVert = ({ colorScale, breaks, selectedClass = null }) => {
   if (!Array.isArray(breaks) || breaks.length < 2) return null;
 
   const classLabels = breaks.slice(0, -1).map((_, i) => {
-    const from = parseFloat(breaks[i]).toFixed(1);
-    const to = parseFloat(breaks[i + 1]).toFixed(1);
+    const breaks_from = (i == 0)? breaks[i] : breaks[i] + 0.01
+    const from = parseFloat(breaks_from).toFixed(2);
+    const to = parseFloat(breaks[i + 1]).toFixed(2);
     return { label: `${from}–${to}`, from, to };
   });
 
-  const minValue = parseFloat(breaks[0]).toFixed(1);
-  const maxValue = parseFloat(breaks[breaks.length - 1]).toFixed(1);
+  const minValue = parseFloat(breaks[0]).toFixed(2);
+  const maxValue = parseFloat(breaks[breaks.length - 1]).toFixed(2);
 
   return (
     <div
