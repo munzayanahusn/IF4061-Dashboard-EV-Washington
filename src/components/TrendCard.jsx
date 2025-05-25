@@ -1,6 +1,4 @@
-"use client"
-
-import React, { useEffect } from "react"
+import React from "react"
 import {
   CartesianGrid,
   Line,
@@ -25,42 +23,12 @@ import {
 } from "../components/ui/tooltip"
 import { useEVChargingTrendData } from "../hooks/useEVChargingTrendData"
 
-const evColor = "#34D399"
-const chargingColor = "#FACC15"
-
-const CustomTooltip = ({ active, payload, label }) => {
-  if (active && payload && payload.length) {
-    const ev = payload.find(p => p.dataKey === "ev")?.value ?? 0
-    const charging = payload.find(p => p.dataKey === "charging")?.value ?? 0
-
-    return (
-      <div
-        style={{
-          backgroundColor: "#1c1c1c",
-          color: "white",
-          padding: "8px 12px",
-          borderRadius: "6px",
-          fontSize: "12px",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
-          whiteSpace: "nowrap",
-          pointerEvents: "none"
-        }}
-      >
-        <div><strong>Year: {label}</strong></div>
-        <div>EV: {ev.toLocaleString()}</div>
-        <div>Charging Station: {charging.toLocaleString()}</div>
-      </div>
-    )
-  }
-  return null
-}
-
 export default function TrendCard({ county = "WA" }) {
   const { data: chartData, loading, error } = useEVChargingTrendData(county)
 
-  useEffect(() => {
-    console.log("Trend data loaded:", chartData)
-  }, [chartData])
+  const root = getComputedStyle(document.documentElement)
+  const evColor = root.getPropertyValue("--color-chart-2").trim()
+  const chargingColor = root.getPropertyValue("--color-chart-4").trim()
 
   if (loading) return <div className="text-center py-12">Loading trend data…</div>
   if (error) return <div className="text-center text-red-500 py-12">{error}</div>
@@ -70,6 +38,7 @@ export default function TrendCard({ county = "WA" }) {
 
   return (
     <Card className="w-full h-full max-w-5xl">
+      {/* Header section with title and info tooltip */}
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-2">
           <CardTitle className="text-base sm:text-lg">
@@ -90,6 +59,7 @@ export default function TrendCard({ county = "WA" }) {
           </TooltipProvider>
         </div>
 
+        {/* Legend for EV and Charging Station lines */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
             <span className="h-2 w-4 rounded-full" style={{ backgroundColor: evColor }}></span>
@@ -102,6 +72,7 @@ export default function TrendCard({ county = "WA" }) {
         </div>
       </CardHeader>
 
+      {/* Line chart section */}
       <CardContent className="flex-1 min-h-[350px]">
         <div className="h-full w-full">
           <ResponsiveContainer width="100%" height={300}>
@@ -109,7 +80,10 @@ export default function TrendCard({ county = "WA" }) {
               data={chartData}
               margin={{ top: 30, bottom: 20, left: 30, right: 30 }}
             >
+              {/* Background grid lines */}
               <CartesianGrid vertical={false} strokeDasharray="3 3" />
+
+              {/* X axis: Year */}
               <XAxis
                 dataKey="year"
                 tickLine={false}
@@ -117,16 +91,34 @@ export default function TrendCard({ county = "WA" }) {
                 tickMargin={8}
                 interval={0}
               />
+
+              {/* Y axis: Value counts */}
               <YAxis
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
                 tickFormatter={(val) => val.toLocaleString()}
               />
+
+              {/* Tooltip to show EV and charging station values */}
               <Tooltip
-                content={<CustomTooltip />}
                 cursor={{ stroke: "#ccc", strokeDasharray: "5 5" }}
+                content={({ active, payload, label }) => {
+                  if (active && payload && payload.length) {
+                    const ev = payload.find(p => p.dataKey === "ev")?.value ?? 0
+                    const charging = payload.find(p => p.dataKey === "charging")?.value ?? 0
+                    return (
+                      <div className="z-50 w-fit max-w-xs rounded-md px-3 py-2 text-xs bg-popover text-popover-foreground shadow-lg border border-border">
+                        <div><strong>EV:</strong> {ev.toLocaleString()}</div>
+                        <div><strong>Charging Station:</strong> {charging.toLocaleString()}</div>
+                      </div>
+                    )
+                  }
+                  return null
+                }}
               />
+
+              {/* EV line */}
               <Line
                 type="linear"
                 dataKey="ev"
@@ -135,6 +127,8 @@ export default function TrendCard({ county = "WA" }) {
                 dot={{ stroke: evColor, fill: evColor }}
                 activeDot={{ r: 5 }}
               />
+
+              {/* Charging station line */}
               <Line
                 type="linear"
                 dataKey="charging"
