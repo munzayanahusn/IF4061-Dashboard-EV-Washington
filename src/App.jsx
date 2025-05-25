@@ -59,7 +59,7 @@ function App() {
             {/* Trend Section */}
             <div className="bg-card p-4 lg:p-6 min-h-[300px] lg:min-h-[350px]">
               {/* <span className="text-lg">EV & Charging Station Trend</span> */}
-              <TrendCard />
+              <TrendCard county={selectedCounty} />
             </div>
           </div>
 
