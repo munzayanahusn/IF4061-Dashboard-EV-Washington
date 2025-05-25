@@ -1,6 +1,6 @@
 import { useData } from "../hooks/useData";
 
-export default function BivariateMap() {
+export default function CloroplethMap() {
   const data = useData();
 
   if (!data) return <p>Loading...</p>;

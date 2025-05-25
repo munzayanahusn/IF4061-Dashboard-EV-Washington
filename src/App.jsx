@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import RatioCard from "./components/RatioCard";
+import BivariateMap from "./components/BivariateMap";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
           <div className="xl:col-span-2 space-y-6 lg:space-y-8">
             {/* Map Section */}
             <div className="bg-card p-4 lg:p-6 min-h-[400px] lg:min-h-[500px]">
-              <span className="text-lg">Map Component</span>
+              {/* <span className="text-lg">Map Component</span> */}
+              <BivariateMap width={1200} />
             </div>
 
             {/* Trend Section */}

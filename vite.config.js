@@ -10,4 +10,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"), // maps @ to /src
     },
   },
+  server: {
+    watch: {
+      usePolling: true,
+    },
+  },
 });
