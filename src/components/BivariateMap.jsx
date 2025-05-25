@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import { geoPath, geoTransform } from 'd3-geo';
 import bbox from '@turf/bbox';
@@ -32,61 +32,53 @@ const BivariateMap = ({ onCountyClick }) => {
   const [containerSize, setContainerSize] = useState({ width: 800, height: 400 });
 
   useEffect(() => {
-    const updateSize = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.clientWidth;
-        const containerHeight = containerRef.current.clientHeight;
-        
-        const [minX, minY, maxX, maxY] = bbox(geoJson);
-        const naturalAspectRatio = (maxY - minY) / (maxX - minX);
-        
-        let width, height;
-        
-        if (containerHeight < 100) {
-          const estimatedHeight = Math.max(400, containerWidth);
-          
-          const widthBasedHeight = containerWidth * naturalAspectRatio;
-          
-          if (widthBasedHeight <= estimatedHeight) {
-            width = containerWidth;
-            height = widthBasedHeight;
-          } else {
-            width = estimatedHeight / naturalAspectRatio;
-            height = estimatedHeight;
-          }
-        } else {
-          const widthBasedHeight = containerWidth * naturalAspectRatio;
-          const heightBasedWidth = containerHeight / naturalAspectRatio;
-          
-          if (widthBasedHeight <= containerHeight) {
-            width = containerWidth;
-            height = widthBasedHeight;
-          } else {
-            width = heightBasedWidth;
-            height = containerHeight;
-          }
-        }
-        
-        setContainerSize({ width, height });
+  const updateSize = () => {
+    if (containerRef.current) {
+      const containerWidth = containerRef.current.clientWidth;
+      const containerHeight = containerRef.current.clientHeight;
+      
+      const [minX, minY, maxX, maxY] = bbox(geoJson);
+      const naturalAspectRatio = (maxY - minY) / (maxX - minX);
+      
+      let width, height;
+
+      const widthBasedHeight = containerWidth * naturalAspectRatio;
+      const heightBasedWidth = containerHeight / naturalAspectRatio;
+
+      if (widthBasedHeight <= containerHeight) {
+        width = containerWidth;
+        height = widthBasedHeight;
+      } else {
+        width = heightBasedWidth;
+        height = containerHeight;
       }
-    };
-    
+
+      setContainerSize({ width, height });
+    }
+  };
+
+  // Observe container resize
+  const observer = new ResizeObserver(() => {
     updateSize();
-    
-    const timer1 = setTimeout(updateSize, 100);
-    const timer2 = setTimeout(updateSize, 300);
-    
-    window.addEventListener('resize', updateSize);
-    
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      window.removeEventListener('resize', updateSize);
-      if (tooltipTimer.current) {
-        clearTimeout(tooltipTimer.current);
-      }
-    };
-  }, []);
+  });
+
+  if (containerRef.current) {
+    observer.observe(containerRef.current);
+  }
+
+  // Initial size set
+  updateSize();
+
+  return () => {
+    if (containerRef.current) {
+      observer.unobserve(containerRef.current);
+    }
+    observer.disconnect();
+    if (tooltipTimer.current) {
+      clearTimeout(tooltipTimer.current);
+    }
+  };
+}, []);
 
   useEffect(() => {
     if (svgRef.current) {
@@ -190,7 +182,7 @@ const BivariateMap = ({ onCountyClick }) => {
   const path = geoPath().projection(projection);
 
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', minHeight: '400px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div ref={containerRef} style={{ width: '100%', height: '100%', minHeight: '300px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <svg 
         ref={svgRef}
         width={width} 
@@ -245,7 +237,34 @@ const BivariateMap = ({ onCountyClick }) => {
                 onMouseEnter={(e) => handleMouseEnter(e, datum)}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
+                style={{ cursor: 'pointer', transition: 'all 0.2s' }}
               />
+            );
+          })}
+        </g>
+        <g>
+          {mapJson.features.map((feature, index) => {
+            const county = feature.properties.JURISDICT_LABEL_NM.toLowerCase();
+            const centroid = path.centroid(feature);
+            const formattedName = county.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return null;
+            return (
+              <text
+                key={`label-${index}`}
+                x={centroid[0]}
+                y={centroid[1]}
+                textAnchor="middle"
+                alignmentBaseline="central"
+                style={{
+                  fontSize: 8,
+                  fontWeight: 'bold',
+                  fill: '#333',
+                  pointerEvents: 'none',
+                  userSelect: 'none',
+                }}
+              >
+                {formattedName}
+              </text>
             );
           })}
         </g>
@@ -297,8 +316,8 @@ const BivariateMap = ({ onCountyClick }) => {
       
       <div style={{ 
         position: 'absolute', 
-        bottom: '-40px',
-        left: '10px',
+        bottom: '-20px',
+        left: '30px',
         zIndex: 10
       }}>
         <svg width="100" height="100">

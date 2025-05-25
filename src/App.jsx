@@ -2,13 +2,22 @@ import { useState } from "react";
 import "./App.css";
 import RatioCard from "./components/RatioCard";
 import BivariateMap from "./components/BivariateMap";
+import BubblePlotMap from "./components/BubblePlotMap"
 
 function App() {
-  const [selectedCounty, setSelectedCounty] = useState(null);
+  const [selectedCounty, setSelectedCounty] = useState("WA");
 
   const handleCountyClick = (countyInfo) => {
-    setSelectedCounty(countyInfo);
+    if (typeof countyInfo === 'string') {
+      setSelectedCounty(countyInfo);
+    } else {
+      setSelectedCounty(countyInfo.countyName);
+    }
     console.log('County selected in App:', countyInfo);
+  };
+
+  const handleCountyClose = () => {
+    setSelectedCounty("WA");
   };
 
   return (
@@ -29,10 +38,17 @@ function App() {
             {/* Map Section */}
             <div className="bg-card p-4 lg:p-6 min-h-[400px] lg:min-h-[500px]">
               {/* <span className="text-lg">Map Component</span> */}
-              <BivariateMap 
-                width={1200} 
-                onCountyClick={handleCountyClick}
-              />
+              {selectedCounty === "WA" ? (
+                <BivariateMap 
+                  width={1200} 
+                  onCountyClick={handleCountyClick}
+                />
+              ) : (
+                <BubblePlotMap 
+                  countyName={selectedCounty}
+                  onClose={handleCountyClose}
+                />
+              )}
             </div>
 
             {/* Trend Section */}
