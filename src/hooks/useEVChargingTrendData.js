@@ -14,27 +14,42 @@ export function useEVChargingTrendData(countyFilter = "WA") {
           d3.csv("/data/trend_charging_station_v2.csv", d3.autoType),
         ]);
 
-        console.log("EV Raw sample:", evRaw.slice(0, 3));
-        console.log("Charging Raw sample:", chargingRaw.slice(0, 3));
-
         const validEV = evRaw.filter(d => d.Year != null && !isNaN(d.Year));
         const validCharging = chargingRaw.filter(d => d.Year != null && !isNaN(d.Year));
 
         const years = Array.from(new Set(validEV.map(d => d.Year))).sort((a, b) => a - b);
 
-        const merged = years.map(year => {
-          const evThisYear = validEV.filter(d => d.Year === year);
-          const chargingThisYear = validCharging.filter(d => d.Year === year);
+        let merged;
 
-          const totalEV = d3.sum(evThisYear, d => +d["Electric Vehicle (EV) Total"] || 0);
-          const totalCharging = d3.sum(chargingThisYear, d => +d.charging_station_count || 0);
+        if (countyFilter === "WA") {
+          merged = years.map(year => {
+            const evThisYear = validEV.filter(d => d.Year === year);
+            const chargingThisYear = validCharging.filter(d => d.Year === year);
 
-          return {
-            year,
-            ev: totalEV,
-            charging: totalCharging,
-          };
-        });
+            const totalEV = d3.sum(evThisYear, d => +d["Electric Vehicle (EV) Total"] || 0);
+            const totalCharging = d3.sum(chargingThisYear, d => +d.charging_station_count || 0);
+
+            return {
+              year,
+              ev: totalEV,
+              charging: totalCharging,
+            };
+          });
+        } else {
+          const filteredEV = validEV.filter(d => d.County?.toLowerCase() === countyFilter.toLowerCase());
+          const filteredCharging = validCharging.filter(d => d.County?.toLowerCase() === countyFilter.toLowerCase());
+
+          merged = years.map(year => {
+            const evForYear = filteredEV.find(d => d.Year === year);
+            const chargingForYear = filteredCharging.find(d => d.Year === year);
+
+            return {
+              year,
+              ev: +evForYear?.["Electric Vehicle (EV) Total"] || 0,
+              charging: +chargingForYear?.charging_station_count || 0,
+            };
+          });
+        }
 
         console.log("Final merged trend data:", merged);
         setData(merged);
