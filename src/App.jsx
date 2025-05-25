@@ -4,6 +4,13 @@ import RatioCard from "./components/RatioCard";
 import BivariateMap from "./components/BivariateMap";
 
 function App() {
+  const [selectedCounty, setSelectedCounty] = useState(null);
+
+  const handleCountyClick = (countyInfo) => {
+    setSelectedCounty(countyInfo);
+    console.log('County selected in App:', countyInfo);
+  };
+
   return (
     <div className="p-4 lg:p-6 m-6">
       {/* Main Container */}
@@ -22,7 +29,10 @@ function App() {
             {/* Map Section */}
             <div className="bg-card p-4 lg:p-6 min-h-[400px] lg:min-h-[500px]">
               {/* <span className="text-lg">Map Component</span> */}
-              <BivariateMap width={1200} />
+              <BivariateMap 
+                width={1200} 
+                onCountyClick={handleCountyClick}
+              />
             </div>
 
             {/* Trend Section */}

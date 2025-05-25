@@ -20,10 +20,12 @@ const bivariateColorScale = d3.scaleOrdinal()
     '#58C3A7', '#82C87E', '#ACCC54'   
   ]);
 
-const BivariateMap = () => {
+const BivariateMap = ({ onCountyClick }) => {
   const { data, breaks, loading, error } = useEVChargingCount();
   const [hoveredCounty, setHoveredCounty] = useState(null);
+  const [selectedCounty, setSelectedCounty] = useState(null);
   const containerRef = useRef(null);
+  const svgRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
   const tooltipTimer = useRef(null);
@@ -86,6 +88,91 @@ const BivariateMap = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (svgRef.current) {
+      const svg = d3.select(svgRef.current);
+      const defs = svg.append('defs');
+      
+      const filter = defs.append('filter')
+        .attr('id', 'drop-shadow')
+        .attr('x', '-50%')
+        .attr('y', '-50%')
+        .attr('width', '200%')
+        .attr('height', '200%');
+      
+      filter.append('feGaussianBlur')
+        .attr('in', 'SourceAlpha')
+        .attr('stdDeviation', 3);
+      
+      filter.append('feOffset')
+        .attr('dx', 0)
+        .attr('dy', 0)
+        .attr('result', 'offsetblur');
+      
+      filter.append('feFlood')
+        .attr('flood-color', '#1E90FF')
+        .attr('flood-opacity', 0.5);
+      
+      filter.append('feComposite')
+        .attr('in2', 'offsetblur')
+        .attr('operator', 'in');
+      
+      const feMerge = filter.append('feMerge');
+      feMerge.append('feMergeNode');
+      feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+    }
+  }, []);
+
+  const handleCountyClick = (county, countyData) => {
+    const formattedCountyName = county.split(' ').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+    
+    setSelectedCounty(county);
+    
+    if (onCountyClick) {
+      onCountyClick({
+        countyName: formattedCountyName,
+        rawCountyName: county,
+        data: countyData
+      });
+    }
+  };
+
+  const handleMouseEnter = (e, datum) => {
+    setHoveredCounty(datum);
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    setMousePos({ 
+      x: e.clientX - rect.left, 
+      y: e.clientY - rect.top 
+    });
+    
+    if (tooltipTimer.current) {
+      clearTimeout(tooltipTimer.current);
+    }
+    
+    tooltipTimer.current = setTimeout(() => {
+      setShowTooltip(true);
+    }, 300);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = containerRef.current.getBoundingClientRect();
+    setMousePos({ 
+      x: e.clientX - rect.left, 
+      y: e.clientY - rect.top 
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredCounty(null);
+    setShowTooltip(false);
+    if (tooltipTimer.current) {
+      clearTimeout(tooltipTimer.current);
+    }
+  };
+
   if (loading || !data) return <div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading map data…</div>;
   if (error) return <div style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Error: {error}</div>;
 
@@ -103,67 +190,67 @@ const BivariateMap = () => {
   const path = geoPath().projection(projection);
 
   return (
-    <div ref={containerRef} style={{ width: '100%',  height: '100%', minHeight: `400px`, position: `relative`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }}>
-        {geoJson.features.map(feature => {
-          const county = feature.properties.JURISDICT_LABEL_NM.toLowerCase();
-          const datum = data.find(d => d.countyName === county);
-          const fill = datum ? bivariateColorScale(datum.bivariateClass) : '#f0f0f0';
+    <div ref={containerRef} style={{ width: '100%', height: '100%', minHeight: '400px', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <svg 
+        ref={svgRef}
+        width={width} 
+        height={height} 
+        viewBox={`0 0 ${width} ${height}`} 
+        style={{ display: 'block', maxWidth: '100%', maxHeight: '100%' }}
+      >
+        <style>
+          {`
+            .county-path {
+              transition: all 0.2s ease-out;
+              cursor: pointer;
+            }
+            
+            .county-path:hover {
+              filter: url(#drop-shadow);
+            }
+            
+            .county-hover {
+              stroke: #1E90FF;
+              stroke-width: 3;
+              filter: url(#drop-shadow);
+            }
+            
+            .county-selected {
+              stroke: #1E90FF;
+              stroke-width: 3;
+            }
+          `}
+        </style>
+        
+        <g>
+          {geoJson.features.map((feature, index) => {
+            const county = feature.properties.JURISDICT_LABEL_NM.toLowerCase();
+            const datum = data.find(d => d.countyName === county);
+            const fill = datum ? bivariateColorScale(datum.bivariateClass) : '#f0f0f0';
 
-          return (
-            <path
-              key={feature.properties.JURISDICT_SYST_ID}
-              d={path(feature)}
-              stroke="#333"
-              strokeWidth={1}
-              fill={fill}
-              onMouseEnter={(e) => {
-                setHoveredCounty(datum);
-                const rect = containerRef.current.getBoundingClientRect();
-                setMousePos({ 
-                  x: e.clientX - rect.left, 
-                  y: e.clientY - rect.top 
-                });
-                
-                if (tooltipTimer.current) {
-                  clearTimeout(tooltipTimer.current);
-                }
-                
-                tooltipTimer.current = setTimeout(() => {
-                  setShowTooltip(true);
-                }, 1000);
-              }}
-              onMouseMove={(e) => {
-                const rect = containerRef.current.getBoundingClientRect();
-                setMousePos({ 
-                  x: e.clientX - rect.left, 
-                  y: e.clientY - rect.top 
-                });
-                
-                // Reset timer every mouse move
-                setShowTooltip(false);
-                if (tooltipTimer.current) {
-                  clearTimeout(tooltipTimer.current);
-                }
-                
-                tooltipTimer.current = setTimeout(() => {
-                  setShowTooltip(true);
-                }, 500);
-              }}
-              onMouseLeave={() => {
-                setHoveredCounty(null);
-                setShowTooltip(false);
-                if (tooltipTimer.current) {
-                  clearTimeout(tooltipTimer.current);
-                }
-              }}
-              style={{ cursor: 'pointer' }}
-            />
-          );
-        })}
+            const isHovered = hoveredCounty && hoveredCounty.countyName === county;
+            const isSelected = selectedCounty === county;
+            
+            const className = `county-path ${isHovered ? 'county-hover' : ''} ${isSelected ? 'county-selected' : ''}`;
+
+            return (
+              <path
+                key={`county-${index}-${county}`}
+                className={className}
+                d={path(feature)}
+                stroke={isHovered || isSelected ? "#1E90FF" : "#333"}
+                strokeWidth={isHovered || isSelected ? 3 : 1}
+                fill={fill}
+                onClick={() => handleCountyClick(county, datum)}
+                onMouseEnter={(e) => handleMouseEnter(e, datum)}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+              />
+            );
+          })}
+        </g>
       </svg>
-      
-      {/* Custom Tooltip */}
+
       {hoveredCounty && showTooltip && (
         <div
           style={{
@@ -171,14 +258,16 @@ const BivariateMap = () => {
             left: mousePos.x - 60,
             top: mousePos.y - 100,
             zIndex: 50,
-            backgroundColor: 'rgba(28, 28, 28, 1)',
+            backgroundColor: 'rgba(28, 28, 28, 0.95)',
             color: 'white',
             padding: '8px 12px',
             borderRadius: '6px',
             fontSize: '12px',
             pointerEvents: 'none',
             boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            transition: 'opacity 0.2s ease-out',
+            opacity: showTooltip ? 1 : 0
           }}
         >
           <div style={{ fontWeight: 'bold' }}>
@@ -200,7 +289,7 @@ const BivariateMap = () => {
               height: '0',
               borderLeft: '6px solid transparent',
               borderRight: '6px solid transparent',
-              borderTop: '6px solid rgba(0, 0, 0, 0.9)'
+              borderTop: '6px solid rgba(28, 28, 28, 0.95)'
             }}
           />
         </div>

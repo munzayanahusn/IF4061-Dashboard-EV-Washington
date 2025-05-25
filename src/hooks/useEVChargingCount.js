@@ -14,7 +14,7 @@ export function useEVChargingCount() {
       try {
         const raw = await d3.csv('/data/ratio_ev_station_v2.csv', d3.autoType);
         
-        console.log("Raw CSV data sample:", raw[0]);
+        // console.log("Raw CSV data sample:", raw[0]);
         
         // Filter out null values
         const evValues = raw
@@ -32,8 +32,8 @@ export function useEVChargingCount() {
         const evBreaks = calculateNaturalBreaks(evValues, 4, true);
         const stationBreaks = calculateNaturalBreaks(stationValues, 4, true);
 
-        console.log("EV breaks:", evBreaks);
-        console.log("Station breaks:", stationBreaks);
+        // console.log("EV breaks:", evBreaks);
+        // console.log("Station breaks:", stationBreaks);
 
         const processed = raw.map(d => {
           const evClass = d.ev_count != null ? getJenksCategory(d.ev_count, evBreaks) : 0;
@@ -51,8 +51,8 @@ export function useEVChargingCount() {
           };
         });
 
-        console.log("Processed data sample:", processed[0]);
-        console.log("Unique counties in data:", processed.map(d => d.countyName));
+        // console.log("Processed data sample:", processed[0]);
+        // console.log("Unique counties in data:", processed.map(d => d.countyName));
         
         setData(processed);
         setBreaks({ evBreaks, stationBreaks });
