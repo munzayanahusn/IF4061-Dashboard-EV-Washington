@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRatio } from "@/hooks/useRatio";
+import { useEVChargingCount } from "@/hooks/useEVChargingCount";
 import IconCs from "@/assets/icon-cs.svg";
 import IconEv from "@/assets/icon-ev.svg";
 import { Info } from "lucide-react";
@@ -12,11 +12,35 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export default function RatioCard() {
-  const { ratio, stations, ev } = useRatio();
+export default function RatioCard({ county = "WA" }) {
+  const { data, loading, error } = useEVChargingCount();
 
+  if (loading)
+    return <div className="text-center py-12">Loading ratio data…</div>;
+  if (error)
+    return <div className="text-center text-red-500 py-12">{error}</div>;
+  if (!data || data.length === 0) {
+    return (
+      <div className="text-center text-gray-400 py-12">
+        No ratio data available.
+      </div>
+    );
+  }
+
+  // Find data for the specific county (case-insensitive match)
+  const countyData = data.find((d) => d.countyName === county.toLowerCase());
+
+  if (!countyData) {
+    return (
+      <div className="text-center text-gray-400 py-12">
+        Data for "{county}" not found.
+      </div>
+    );
+  }
+
+  const { evCount, stationCount, ratio } = countyData;
   return (
-    <Card className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-4xl gap-2">
+    <Card className="w-full max-w-5xl gap-2">
       <CardHeader className="flex flex-row justify-start items-center gap-2">
         <CardTitle className="card-title text-left text-lg">
           EV-to-Charger Ratio
@@ -24,7 +48,7 @@ export default function RatioCard() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <Info className="w-4 h-4" />
+              <Info className="w-4 h-4 text-muted-foreground" />
             </TooltipTrigger>
             <TooltipContent className="w-xs p-4 bg-popover text-popover-foreground">
               <small>
@@ -39,7 +63,9 @@ export default function RatioCard() {
       </CardHeader>
       <CardContent className="flex flex-col justify-start items-start gap-3">
         <div className="flex flex-row justify-start items-center gap-3 group">
-          <p className="text-3xl sm:text-4xl">{ratio} : 1</p>
+          <p className="text-3xl sm:text-4xl">
+            {ratio.toLocaleString("en-US")} : 1
+          </p>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -77,7 +103,9 @@ export default function RatioCard() {
               alt="Charging Station Icon"
               className="w-5 h-5 sm:w-6 sm:h-6"
             />
-            <p className="text-sm xl:text-base">{stations} Stations</p>
+            <p className="text-sm xl:text-base">
+              {stationCount.toLocaleString("en-US")} Stations
+            </p>
           </div>
           <div className="flex flex-row justify-start items-center gap-2">
             <img
@@ -85,7 +113,9 @@ export default function RatioCard() {
               alt="Electric Vehicle Icon"
               className="w-5 h-5 sm:w-6 sm:h-6"
             />
-            <p className="text-sm xl:text-base">{ev} EVs</p>
+            <p className="text-sm xl:text-base">
+              {evCount.toLocaleString("en-US")} EVs
+            </p>
           </div>
         </div>
       </CardContent>
