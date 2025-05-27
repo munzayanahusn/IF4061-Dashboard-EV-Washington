@@ -6,6 +6,7 @@ import ChoroplethMap from "./components/ChoroplethMap";
 import BubblePlotMap from "./components/BubblePlotMap";
 import TrendCard from "./components/TrendCard";
 import EVTypCard from "./components/EVTypeCard";
+import StationNetCard from "./components/StationNetCard";
 
 function App() {
   const [selectedCounty, setSelectedCounty] = useState("WA");
@@ -42,9 +43,9 @@ function App() {
             <div>
               {/* <span className="text-lg">Map Component</span> */}
               {selectedCounty === "WA" ? (
-                <BivariateMap width={1200} onCountyClick={handleCountyClick} />
+                // <BivariateMap width={1200} onCountyClick={handleCountyClick} />
+                <ChoroplethMap onCountyClick={handleCountyClick} />
               ) : (
-                // <ChoroplethMap onCountyClick={handleCountyClick} />
                 <BubblePlotMap
                   countyName={selectedCounty}
                   onClose={handleCountyClose}
@@ -65,14 +66,10 @@ function App() {
             <RatioCard />
 
             {/* EV Mix Card */}
-            <div>
-              <EVTypCard county={selectedCounty} />
-            </div>
+            <EVTypCard county={selectedCounty} />
 
             {/* Electric Utility Proportion Card */}
-            <div className="bg-card p-4 lg:p-6">
-              <span className="text-lg">Electric Utility Proportion</span>
-            </div>
+            <StationNetCard county={selectedCounty} />
           </div>
         </div>
       </div>
