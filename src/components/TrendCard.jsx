@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   CartesianGrid,
   Line,
@@ -6,38 +6,44 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  ResponsiveContainer
-} from "recharts"
-import { Info } from "lucide-react"
+  ResponsiveContainer,
+} from "recharts";
+import { Info } from "lucide-react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "../components/ui/card"
+} from "../components/ui/card";
 import {
   Tooltip as UiTooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../components/ui/tooltip"
-import { useEVChargingTrendData } from "../hooks/useEVChargingTrendData"
+} from "../components/ui/tooltip";
+import { useEVChargingTrendData } from "../hooks/useEVChargingTrendData";
 
 export default function TrendCard({ county = "WA" }) {
-  const { data: chartData, loading, error } = useEVChargingTrendData(county)
+  const { data: chartData, loading, error } = useEVChargingTrendData(county);
 
-  const root = getComputedStyle(document.documentElement)
-  const evColor = root.getPropertyValue("--color-chart-2").trim()
-  const chargingColor = root.getPropertyValue("--color-chart-4").trim()
+  const root = getComputedStyle(document.documentElement);
+  const evColor = root.getPropertyValue("--color-chart-1").trim();
+  const chargingColor = root.getPropertyValue("--color-chart-2").trim();
 
-  if (loading) return <div className="text-center py-12">Loading trend data…</div>
-  if (error) return <div className="text-center text-red-500 py-12">{error}</div>
+  if (loading)
+    return <div className="text-center py-12">Loading trend data…</div>;
+  if (error)
+    return <div className="text-center text-red-500 py-12">{error}</div>;
   if (!chartData || chartData.length === 0) {
-    return <div className="text-center text-gray-400 py-12">No trend data available.</div>
+    return (
+      <div className="text-center text-gray-400 py-12">
+        No trend data available.
+      </div>
+    );
   }
 
   return (
-    <Card className="w-full h-full max-w-5xl">
+    <Card className="w-full h-full max-w-5xl gap-2">
       {/* Header section with title and info tooltip */}
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-2">
@@ -51,8 +57,9 @@ export default function TrendCard({ county = "WA" }) {
               </TooltipTrigger>
               <TooltipContent className="p-4 bg-popover text-popover-foreground max-w-sm">
                 <small>
-                  This line chart shows the year-over-year growth of electric vehicles (EVs)
-                  and public charging stations in <strong>{county}</strong>.
+                  This line chart shows the year-over-year growth of electric
+                  vehicles (EVs) and public charging stations in{" "}
+                  <strong>{county}</strong>.
                 </small>
               </TooltipContent>
             </UiTooltip>
@@ -62,26 +69,36 @@ export default function TrendCard({ county = "WA" }) {
         {/* Legend for EV and Charging Station lines */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
-            <span className="h-2 w-4 rounded-full" style={{ backgroundColor: evColor }}></span>
+            <span
+              className="h-2 w-4 rounded-full"
+              style={{ backgroundColor: evColor }}
+            ></span>
             <span className="text-sm">EV</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="h-2 w-4 rounded-full" style={{ backgroundColor: chargingColor }}></span>
+            <span
+              className="h-2 w-4 rounded-full"
+              style={{ backgroundColor: chargingColor }}
+            ></span>
             <span className="text-sm">Charging Station</span>
           </div>
         </div>
       </CardHeader>
 
       {/* Line chart section */}
-      <CardContent className="flex-1 min-h-[350px]">
+      <CardContent className="flex-1">
         <div className="h-full w-full">
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={180}>
             <LineChart
               data={chartData}
-              margin={{ top: 30, bottom: 20, left: 30, right: 30 }}
+              margin={{ top: 20, bottom: 10, left: 20, right: 30 }}
             >
               {/* Background grid lines */}
-              <CartesianGrid vertical={false} strokeDasharray="3 3" />
+              <CartesianGrid
+                vertical={false}
+                strokeDasharray="3 3"
+                stroke="var(--chart-accent)"
+              />
 
               {/* X axis: Year */}
               <XAxis
@@ -102,19 +119,29 @@ export default function TrendCard({ county = "WA" }) {
 
               {/* Tooltip to show EV and charging station values */}
               <Tooltip
-                cursor={{ stroke: "#ccc", strokeDasharray: "5 5" }}
+                cursor={{
+                  stroke: "var(--chart-accent)",
+                  strokeDasharray: "5 5",
+                }}
                 content={({ active, payload, label }) => {
                   if (active && payload && payload.length) {
-                    const ev = payload.find(p => p.dataKey === "ev")?.value ?? 0
-                    const charging = payload.find(p => p.dataKey === "charging")?.value ?? 0
+                    const ev =
+                      payload.find((p) => p.dataKey === "ev")?.value ?? 0;
+                    const charging =
+                      payload.find((p) => p.dataKey === "charging")?.value ?? 0;
                     return (
                       <div className="z-50 w-fit max-w-xs rounded-md px-3 py-2 text-xs bg-popover text-popover-foreground shadow-lg border border-border">
-                        <div><strong>EV:</strong> {ev.toLocaleString()}</div>
-                        <div><strong>Charging Station:</strong> {charging.toLocaleString()}</div>
+                        <div>
+                          <strong>EV:</strong> {ev.toLocaleString()}
+                        </div>
+                        <div>
+                          <strong>Charging Station:</strong>{" "}
+                          {charging.toLocaleString()}
+                        </div>
                       </div>
-                    )
+                    );
                   }
-                  return null
+                  return null;
                 }}
               />
 
@@ -142,5 +169,5 @@ export default function TrendCard({ county = "WA" }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
