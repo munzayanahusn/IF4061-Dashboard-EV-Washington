@@ -6,6 +6,7 @@ import { useEVData } from '../hooks/useEVData';
 import { useStationData } from '../hooks/useStationData';
 import { useLocationCount } from '../hooks/useLocationCount';
 import mapJson from '../data/map/WA_map.json';
+import IconCharging from "@/assets/icon-charging.svg";
 
 const BubblePlotMap = ({ countyName, onClose }) => {
   const containerRef = useRef(null);
@@ -101,7 +102,7 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       }).filter(d => d.longitude && d.latitude);
 
       const maxEvCount = d3.max(locationData, d => d.evCount);
-      const sizeScale = d3.scaleSqrt().domain([0, maxEvCount]).range([4, 40]);
+      const sizeScale = d3.scaleSqrt().domain([0, maxEvCount]).range([0, 40]);
 
       locationData.forEach(d => {
         const [x, y] = projection([d.longitude, d.latitude]);
@@ -112,7 +113,7 @@ const BubblePlotMap = ({ countyName, onClose }) => {
             .attr('r', sizeScale(d.evCount))
             .attr('fill', d.isMajorityFacilitated ? '#4CAF50' : '#F44336')
             .attr('stroke', d.isMajorityFacilitated ? '#2E7D32' : '#C62828')
-            .attr('stroke-width', 1.5)
+            .attr('stroke-width', 0)
             .attr('opacity', 0.7)
             .style('cursor', 'pointer')
             .on('mouseenter', () => {
@@ -136,15 +137,32 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       stationData.filter(d => d.longitude && d.latitude).forEach(d => {
         const [x, y] = projection([d.longitude, d.latitude]);
         if (x && y) {
+          // g.append('text')
           g.append('circle')
+          // g.append('image')
+            // .attr('text-anchor', 'middle')
+            // .attr('alignment-baseline', 'central')
+            // .text('🗲') // ★ ✦ ✪ ⚡ ⛽ 🗲 🔋
+            // .attr('font-size', '4px')
+            // .attr('fill', '#FFD400')
+
             .attr('cx', x)
             .attr('cy', y)
-            .attr('r', 5)
-            .attr('fill', '#FFD700')
-            .attr('stroke', '#FFA500')
-            .attr('stroke-width', 1.5)
+            .attr('r', 1)
+            .attr('fill', '#FFD400')
             .attr('opacity', 0.8)
+            
+            // .attr('href', IconCharging)
+            // .attr('x', x)
+            // .attr('y', y)
+            // .attr('x', x - 6)        
+            // .attr('y', y - 6)
+            // .attr('width', 8)          
+            // .attr('height', 8)
+            // .attr('opacity', 0.6)
+
             .style('cursor', 'pointer')
+            .attr('opacity', 0.9)
             .on('mouseenter', () => {
               setHoveredLocation(d);
               setHoveredType('station');
