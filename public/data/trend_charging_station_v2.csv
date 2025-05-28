@@ -7,7 +7,7 @@ Adams,3,2021
 Adams,3,2022
 Adams,3,2023
 Adams,5,2024
-Adams,6,2025
+Adams,7,2025
 Asotin,1,2017
 Asotin,2,2018
 Asotin,1,2019
@@ -34,7 +34,7 @@ Chelan,35,2021
 Chelan,35,2022
 Chelan,36,2023
 Chelan,34,2024
-Chelan,48,2025
+Chelan,49,2025
 Clallam,14,2017
 Clallam,20,2018
 Clallam,21,2019
@@ -43,7 +43,7 @@ Clallam,27,2021
 Clallam,26,2022
 Clallam,39,2023
 Clallam,43,2024
-Clallam,38,2025
+Clallam,36,2025
 Clark,27,2017
 Clark,26,2018
 Clark,36,2019
@@ -108,7 +108,7 @@ Grays Harbor,10,2021
 Grays Harbor,11,2022
 Grays Harbor,19,2023
 Grays Harbor,21,2024
-Grays Harbor,16,2025
+Grays Harbor,15,2025
 Island,7,2017
 Island,7,2018
 Island,8,2019
@@ -118,10 +118,10 @@ Island,8,2022
 Island,10,2023
 Island,13,2024
 Island,13,2025
-Jefferson,1,2022
-Jefferson,2,2023
-Jefferson,4,2024
-Jefferson,4,2025
+Jefferson,4,2022
+Jefferson,8,2023
+Jefferson,14,2024
+Jefferson,14,2025
 King,364,2017
 King,404,2018
 King,457,2019
@@ -130,7 +130,7 @@ King,850,2021
 King,822,2022
 King,1037,2023
 King,1204,2024
-King,1325,2025
+King,1323,2025
 Kitsap,22,2017
 Kitsap,23,2018
 Kitsap,24,2019
@@ -170,8 +170,8 @@ Lincoln,1,2020
 Lincoln,1,2021
 Lincoln,3,2022
 Lincoln,3,2023
-Lincoln,4,2024
-Lincoln,5,2025
+Lincoln,3,2024
+Lincoln,3,2025
 Mason,5,2017
 Mason,5,2018
 Mason,4,2019
@@ -189,7 +189,7 @@ Okanogan,10,2021
 Okanogan,10,2022
 Okanogan,10,2023
 Okanogan,13,2024
-Okanogan,15,2025
+Okanogan,14,2025
 Pacific,3,2017
 Pacific,4,2018
 Pacific,3,2019
@@ -198,7 +198,7 @@ Pacific,3,2021
 Pacific,3,2022
 Pacific,3,2023
 Pacific,8,2024
-Pacific,4,2025
+Pacific,5,2025
 Pend Oreille,1,2021
 Pend Oreille,1,2022
 Pend Oreille,2,2023
@@ -212,7 +212,7 @@ Pierce,122,2021
 Pierce,126,2022
 Pierce,136,2023
 Pierce,144,2024
-Pierce,148,2025
+Pierce,147,2025
 San Juan,3,2017
 San Juan,13,2018
 San Juan,14,2019
@@ -230,7 +230,7 @@ Skagit,28,2021
 Skagit,33,2022
 Skagit,41,2023
 Skagit,43,2024
-Skagit,41,2025
+Skagit,40,2025
 Skamania,2,2017
 Skamania,4,2018
 Skamania,2,2019
@@ -248,7 +248,7 @@ Snohomish,97,2021
 Snohomish,98,2022
 Snohomish,123,2023
 Snohomish,137,2024
-Snohomish,131,2025
+Snohomish,134,2025
 Spokane,22,2017
 Spokane,61,2018
 Spokane,58,2019
@@ -265,7 +265,7 @@ Stevens,2,2021
 Stevens,3,2022
 Stevens,3,2023
 Stevens,4,2024
-Stevens,4,2025
+Stevens,5,2025
 Thurston,33,2017
 Thurston,34,2018
 Thurston,34,2019
@@ -283,7 +283,7 @@ WA,1593,2021
 WA,1611,2022
 WA,2039,2023
 WA,2368,2024
-WA,2528,2025
+WA,2536,2025
 Wahkiakum,2,2018
 Wahkiakum,2,2019
 Wahkiakum,2,2020
@@ -309,7 +309,7 @@ Whatcom,33,2021
 Whatcom,38,2022
 Whatcom,44,2023
 Whatcom,84,2024
-Whatcom,87,2025
+Whatcom,88,2025
 Whitman,5,2017
 Whitman,8,2018
 Whitman,9,2019
