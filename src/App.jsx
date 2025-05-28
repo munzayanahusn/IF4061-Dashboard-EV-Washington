@@ -32,7 +32,7 @@ function App() {
       <div className="">
         {/* Header */}
         <header className="mb-6 lg:mb-8">
-          <div className="flex flex-col xl:flex-row xl:items-center-safe gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-center-safe gap-4">
             <h1 className="text-2xl lg:text-3xl font-weight-regular">
               Electric Vehicle (EV) vs Charging Station Availability in
             </h1>
@@ -44,9 +44,9 @@ function App() {
         </header>
 
         {/* Main Grid Layout */}
-        <div className="xl:flex xl:gap-8">
+        <div className="lg:flex xl:gap-8">
           {/* Left Column */}
-          <div className="xl:flex-1 space-y-6 lg:space-y-8 flex flex-col justify-between">
+          <div className="lg:flex-1 space-y-6 lg:space-y-8 flex flex-col justify-between">
             {/* Map Section */}
             <div className="relative">
               {selectedCounty !== "WA" && (
@@ -65,13 +65,13 @@ function App() {
             </div>
 
             {/* Trend Section aligned to sidebar bottom */}
-            <div className="mb-6 xl:mb-0">
+            <div className="mb-6 lg:mb-0">
               <TrendCard county={selectedCounty} />
             </div>
           </div>
 
           {/* Right Column */}
-          <div className="xl:w-1/3 space-y-6 flex flex-col">
+          <div className="lg:w-1/3 space-y-6 flex flex-col">
             <RatioCard county={selectedCounty} />
             <EVTypCard county={selectedCounty} />
             <StationNetCard county={selectedCounty} />
