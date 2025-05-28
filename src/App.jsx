@@ -7,6 +7,8 @@ import BubblePlotMap from "./components/BubblePlotMap";
 import TrendCard from "./components/TrendCard";
 import EVTypCard from "./components/EVTypeCard";
 import StationNetCard from "./components/StationNetCard";
+import CountySelect from "./components/CountySelect";
+import BackButton from "./components/BackButton";
 
 function App() {
   const [selectedCounty, setSelectedCounty] = useState("WA");
@@ -30,20 +32,29 @@ function App() {
       <div className="">
         {/* Header */}
         <header className="mb-6 lg:mb-8">
-          <h1 className="text-2xl lg:text-3xl font-weight-regular">
-            Electric Vehicle (EV) vs Charging Station Availability in Washington
-          </h1>
+          <div className="flex flex-col xl:flex-row xl:items-center-safe gap-4">
+            <h1 className="text-2xl lg:text-3xl font-weight-regular">
+              Electric Vehicle (EV) vs Charging Station Availability in
+            </h1>
+            <CountySelect
+              selectedCounty={selectedCounty}
+              onSelectCounty={handleCountyClick}
+            />
+          </div>
         </header>
 
         {/* Main Grid Layout */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
-          {/* Left Column - Main Content Area */}
-          <div className="xl:col-span-2 space-y-6 lg:space-y-8">
+        <div className="xl:flex xl:gap-8">
+          {/* Left Column */}
+          <div className="xl:flex-1 space-y-6 lg:space-y-8 flex flex-col justify-between">
             {/* Map Section */}
-            <div>
-              {/* <span className="text-lg">Map Component</span> */}
+            <div className="relative">
+              {selectedCounty !== "WA" && (
+                <div className="absolute top-2 left-2 z-10">
+                  <BackButton onClick={handleCountyClose} />
+                </div>
+              )}
               {selectedCounty === "WA" ? (
-                // <BivariateMap width={1200} onCountyClick={handleCountyClick} />
                 <ChoroplethMap onCountyClick={handleCountyClick} />
               ) : (
                 <BubblePlotMap
@@ -53,22 +64,16 @@ function App() {
               )}
             </div>
 
-            {/* Trend Section */}
-            <div>
-              {/* <span className="text-lg">EV & Charging Station Trend</span> */}
+            {/* Trend Section aligned to sidebar bottom */}
+            <div className="mb-6 xl:mb-0">
               <TrendCard county={selectedCounty} />
             </div>
           </div>
 
-          {/* Right Column - Sidebar */}
-          <div className="xl:col-span-1 space-y-6">
-            {/* EV-to-Charger Ratio Card */}
+          {/* Right Column */}
+          <div className="xl:w-1/3 space-y-6 flex flex-col">
             <RatioCard />
-
-            {/* EV Mix Card */}
             <EVTypCard county={selectedCounty} />
-
-            {/* Electric Utility Proportion Card */}
             <StationNetCard county={selectedCounty} />
           </div>
         </div>
