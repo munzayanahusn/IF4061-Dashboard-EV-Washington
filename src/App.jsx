@@ -72,7 +72,7 @@ function App() {
 
           {/* Right Column */}
           <div className="xl:w-1/3 space-y-6 flex flex-col">
-            <RatioCard />
+            <RatioCard county={selectedCounty} />
             <EVTypCard county={selectedCounty} />
             <StationNetCard county={selectedCounty} />
           </div>
