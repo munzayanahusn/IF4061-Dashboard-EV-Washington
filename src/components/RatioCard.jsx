@@ -63,9 +63,7 @@ export default function RatioCard({ county = "WA" }) {
       </CardHeader>
       <CardContent className="flex flex-col justify-start items-start gap-3">
         <div className="flex flex-row justify-start items-center gap-3 group">
-          <p className="text-3xl sm:text-4xl">
-            {ratio.toLocaleString("en-US")} : 1
-          </p>
+          <p className="text-3xl">{ratio.toLocaleString("en-US")} : 1</p>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

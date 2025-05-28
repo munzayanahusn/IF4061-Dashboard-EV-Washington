@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 /* Base Tokens */
@@ -34,10 +35,10 @@
   --ring: oklch(0.704 0.04 256.788);
 
   --chart-1: oklch(0.705 0.14 169.5);
-  --chart-2: oklch(0.828 0.189 84.429);
-  --chart-3: oklch(0.8765 0.0249 119.55);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-2: oklch(0.8347 0.1714 82.5);
+  --chart-3: oklch(0.4955 0 173.55);
+  --chart-4: oklch(0.6494 0 173.55);
+  --chart-5: oklch(0.8493 0 173.55);
   --chart-accent: oklch(0.4934 0.0085 173.55);
   --chart-foreground: oklch(0.1264 0.0176 173.55);
 
@@ -105,6 +106,9 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-accent: var(--chart-accent);
+  --color-chart-foreground: var(--chart-foreground);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);

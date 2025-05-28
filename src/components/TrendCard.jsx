@@ -97,7 +97,7 @@ export default function TrendCard({ county = "WA" }) {
               <CartesianGrid
                 vertical={false}
                 strokeDasharray="3 3"
-                stroke="var(--chart-accent)"
+                stroke="var(--color-chart-accent)"
               />
 
               {/* X axis: Year */}
@@ -120,7 +120,7 @@ export default function TrendCard({ county = "WA" }) {
               {/* Tooltip to show EV and charging station values */}
               <Tooltip
                 cursor={{
-                  stroke: "var(--chart-accent)",
+                  stroke: "var(--color-chart-accent)",
                   strokeDasharray: "5 5",
                 }}
                 content={({ active, payload, label }) => {

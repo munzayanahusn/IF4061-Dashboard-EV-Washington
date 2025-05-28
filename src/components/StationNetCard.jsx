@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useStationNetBreakdown } from "@/hooks/useStationNetBreakdown";
 import { Info } from "lucide-react";
+import IconCS from "@/assets/icon-cs.svg";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -14,9 +15,9 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
 
 const COLORS = [
   "var(--color-chart-2)",
+  "var(--color-chart-3)",
   "var(--color-chart-4)",
   "var(--color-chart-5)",
-  "var(--color-chart-accent)",
 ];
 
 const CustomLegend = ({ config, onHover, hoveredKey }) => {
@@ -100,12 +101,12 @@ export default function StationNetCard({ county = "WA" }) {
               cy="50%"
               stroke="none"
               innerRadius={60}
-              outerRadius={90}
+              outerRadius={85}
               activeIndex={chartData.findIndex((d) => d.name === hovered)}
               activeShape={(props) => (
                 <Sector
                   {...props}
-                  outerRadius={100}
+                  outerRadius={90}
                   innerRadius={60}
                   stroke="none"
                 />
@@ -129,6 +130,13 @@ export default function StationNetCard({ county = "WA" }) {
                 );
               })}
             </Pie>
+            <foreignObject x="46%" y="42%" width={40} height={40}>
+              <img
+                src={IconCS}
+                alt="Charging Station Icon"
+                className="w-10 h-10"
+              />
+            </foreignObject>
           </PieChart>
         </ResponsiveContainer>
         <CustomLegend

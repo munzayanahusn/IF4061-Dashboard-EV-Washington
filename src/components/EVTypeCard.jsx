@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useEVTypeBreakdown } from "@/hooks/useEVTypeBreakdown";
 import { Info } from "lucide-react";
+import IconBEV from "@/assets/icon-bev.svg";
+import IconPHEV from "@/assets/icon-phev.svg";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -15,7 +17,6 @@ import {
   Bar,
   XAxis,
   YAxis,
-  Tooltip,
   LabelList,
   ResponsiveContainer,
 } from "recharts";
@@ -83,14 +84,14 @@ export default function EVTypCard({ county = "WA" }) {
         </TooltipProvider>
       </CardHeader>
       <CardContent className="flex flex-col justify-start items-start gap-0">
-        <ResponsiveContainer width="100%" height={50}>
+        <ResponsiveContainer width="100%" height={40}>
           <BarChart data={chartData} layout="vertical">
             <XAxis type="number" hide domain={[0, 100]} />
             <YAxis type="category" dataKey="name" hide />
             <Bar
               dataKey="PHEV"
               stackId="a"
-              fill="var(--chart-3)"
+              fill="var(--chart-5)"
               radius={[6, 0, 0, 6]}
             >
               <LabelList
@@ -118,8 +119,12 @@ export default function EVTypCard({ county = "WA" }) {
           </BarChart>
         </ResponsiveContainer>
         <div className="flex flex-row justify-between w-full px-2 text-sm text-foreground">
-          <span className="text-left text-sm">PHEV</span>
-          <span className="text-right text-sm">BEV</span>
+          <div className="flex gap-1 text-left text-sm">
+            PHEV <img src={IconPHEV} alt="PHEV Icon" className="w-4 h-4" />
+          </div>
+          <div className="flex gap-1 text-right text-sm">
+            BEV <img src={IconBEV} alt="BEV Icon" className="w-4 h-4" />
+          </div>
         </div>
       </CardContent>
     </Card>
