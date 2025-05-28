@@ -18,13 +18,10 @@ export const useStationNetBreakdown = (countyName) => {
         setLoading(true);
         setError(null);
 
-        const allData = await d3.csv(
-          "/data/ev_network_by_county.csv",
-          d3.autoType
-        );
+        const raw = await d3.csv("/data/ev_network_by_county.csv", d3.autoType);
 
         // Filter data for selected county
-        const filteredData = allData.filter(
+        const filteredData = raw.filter(
           (d) => d.County && d.County.toLowerCase() === countyName.toLowerCase()
         );
 
