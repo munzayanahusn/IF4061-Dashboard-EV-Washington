@@ -46,9 +46,9 @@ function App() {
         {/* Main Grid Layout */}
         <div className="lg:flex xl:gap-8">
           {/* Left Column */}
-          <div className="lg:flex-1 space-y-6 lg:space-y-8 flex flex-col justify-between">
+          <div className="lg:flex-1 flex flex-col justify-between gap-6 lg:gap-8">
             {/* Map Section */}
-            <div className="relative">
+            <div className="relative w-full" style={{ height: "500px" }}>
               {selectedCounty !== "WA" && (
                 <div className="absolute top-2 left-2 z-10">
                   <BackButton onClick={handleCountyClose} />
@@ -63,7 +63,6 @@ function App() {
                 />
               )}
             </div>
-
             {/* Trend Section aligned to sidebar bottom */}
             <div className="mb-6 lg:mb-0">
               <TrendCard county={selectedCounty} />

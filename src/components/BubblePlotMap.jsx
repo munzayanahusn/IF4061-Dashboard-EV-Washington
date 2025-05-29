@@ -15,12 +15,14 @@ const BubblePlotMap = ({ countyName, onClose }) => {
   const [hoveredType, setHoveredType] = useState(null); // 'ev' or 'station'
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
-  const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+  const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
 
-  const { data: normalizedEvData, loading: evLoading, error: evError } = useEVData(countyName);
+  const { data: normalizedEvData, maxCount: maxCount, loading: evLoading, error: evError } = useEVData(countyName);
   const { data: stationData, loading: stationLoading, error: stationError } = useStationData(countyName);
   const { data: locationCountMap, loading: countLoading, error: countError } = useLocationCount();
 
+  const globalEvMax = maxCount
+  
   useEffect(() => {
     const updateSize = () => {
       if (!containerRef.current) return;
@@ -35,17 +37,14 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       const [minX, minY, maxX, maxY] = bbox(countyFeature);
       const countyAspectRatio = (maxY - minY) / (maxX - minX);
 
-      if (containerHeight / containerWidth > countyAspectRatio) {
-        setDimensions({
-          width: containerWidth,
-          height: containerWidth * countyAspectRatio
-        });
-      } else {
-        setDimensions({
-          width: containerHeight / countyAspectRatio,
-          height: containerHeight
-        });
-      }
+      setDimensions({
+        width: containerWidth,
+        height: containerHeight
+      });
+
+      // console.log("[DEBUG] Dimension:")
+      // console.log("containerHeight", containerHeight, "\nContainerWidth", containerWidth, "\nAspectRatio", countyAspectRatio)
+      // console.log("\nHeight", dimensions.height, "Width:", dimensions.width)
     };
 
     updateSize();
@@ -65,17 +64,22 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       const svg = d3.select(svgRef.current);
       svg.selectAll('*').remove();
 
-      const margin = { top: 20, right: 20, bottom: 20, left: 20 };
-      const innerWidth = width - margin.left - margin.right;
-      const innerHeight = height - margin.top - margin.bottom;
+      const margin = { top: 30, right: 30, bottom: 30, left: 30 };
+      const scaler = 0.8
+      const innerWidth = width*scaler - margin.left - margin.right;
+      const innerHeight = height*scaler - margin.top - margin.bottom;
 
       const projection = d3.geoIdentity()
         .reflectY(true)
         .fitSize([innerWidth, innerHeight], countyFeature);
 
       const path = geoPath().projection(projection);
+
+      const offsetX = (width - innerWidth) / 2;
+      const offsetY = (height - innerHeight) / 2;
+
       const g = svg.append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
+        .attr("transform", `translate(${offsetX},${offsetY})`);
 
       // Render county
       g.append('path')
@@ -101,8 +105,7 @@ const BubblePlotMap = ({ countyName, onClose }) => {
         };
       }).filter(d => d.longitude && d.latitude);
 
-      const maxEvCount = d3.max(locationData, d => d.evCount);
-      const sizeScale = d3.scaleSqrt().domain([0, maxEvCount]).range([0, 40]);
+      const sizeScale = d3.scaleSqrt().domain([0, globalEvMax]).range([0, 40]);
 
       locationData.forEach(d => {
         const [x, y] = projection([d.longitude, d.latitude]);
@@ -137,30 +140,12 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       stationData.filter(d => d.longitude && d.latitude).forEach(d => {
         const [x, y] = projection([d.longitude, d.latitude]);
         if (x && y) {
-          // g.append('text')
           g.append('circle')
-          // g.append('image')
-            // .attr('text-anchor', 'middle')
-            // .attr('alignment-baseline', 'central')
-            // .text('🗲') // ★ ✦ ✪ ⚡ ⛽ 🗲 🔋
-            // .attr('font-size', '4px')
-            // .attr('fill', '#FFD400')
-
             .attr('cx', x)
             .attr('cy', y)
             .attr('r', 1)
             .attr('fill', '#FFD400')
             .attr('opacity', 0.8)
-            
-            // .attr('href', IconCharging)
-            // .attr('x', x)
-            // .attr('y', y)
-            // .attr('x', x - 6)        
-            // .attr('y', y - 6)
-            // .attr('width', 8)          
-            // .attr('height', 8)
-            // .attr('opacity', 0.6)
-
             .style('cursor', 'pointer')
             .attr('opacity', 0.9)
             .on('mouseenter', () => {

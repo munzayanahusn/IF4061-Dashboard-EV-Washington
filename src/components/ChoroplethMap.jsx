@@ -47,17 +47,54 @@ const ChoroplethMap = ({ onCountyClick }) => {
     };
   }, []);
 
-  if (loading || !data) return <div style={{ height: '400px' }}>Loading...</div>;
-  if (error) return <div style={{ height: '400px' }}>Error loading map</div>;
+  if (loading || !data) {
+    return (
+      <div
+        style={{
+          height: '100%',
+          width: '100%',
+          minHeight: '400px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '16px',
+          color: '#ccc',
+          textAlign: 'center',
+        }}
+      >
+        Loading Washington data...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        style={{
+          height: '100%',
+          width: '100%',
+          minHeight: '400px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '16px',
+          color: '#ff6b6b',
+          textAlign: 'center',
+        }}
+      >
+        Error loading map: {error}
+      </div>
+    );
+  }
 
   const { width, height } = containerSize;
   const [minX, minY, maxX, maxY] = bbox(mapJson);
   const x = d3.scaleLinear().range([0, width]).domain([minX, maxX]);
   const y = d3.scaleLinear().range([0, height]).domain([maxY, minY]);
 
-  const scaleFactor = 0.9;
-  const offsetX = 60;
-  const offsetY = 20;
+  const scaleFactor = 0.85;
+  const offsetX = 100;
+  const offsetY = 30;
 
   const projection = d3.geoTransform({
     point(px, py) {
@@ -102,15 +139,13 @@ const ChoroplethMap = ({ onCountyClick }) => {
       ref={containerRef}
       style={{
         width: '100%',
-        height: 'auto',
-        aspectRatio: '2 / 1',
+        height: '100%',
         position: 'relative',
+        maxWidth: '100%',
+        overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        maxWidth: '100%',
-        minHeight: '240px',
-        paddingBottom: '0px'
       }}
     >
       <svg
@@ -119,7 +154,7 @@ const ChoroplethMap = ({ onCountyClick }) => {
         height={height}
         viewBox={`0 0 ${width} ${height}`}
         preserveAspectRatio="xMidYMid meet"
-        style={{ width: '100%', height: 'auto', display: 'block' }}
+        style={{ width: '100%', height: '100%', display: 'block' }}
       >
         <defs>
           <filter id="drop-shadow" x="-50%" y="-50%" width="200%" height="200%">
@@ -246,7 +281,7 @@ const ChoroplethMap = ({ onCountyClick }) => {
       <div
         style={{
           position: 'absolute',
-          bottom: 10,
+          bottom: 25,
           left: 10,
           maxWidth: 'calc(100% - 20px)'
         }}
