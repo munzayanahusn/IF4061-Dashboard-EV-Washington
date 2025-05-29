@@ -926,7 +926,7 @@ ID,Fuel Type Code,Station Name,Street Address,Intersection Directions,City,State
 195123,ELEC,Queen Anne Square,200 West Mercer Street,,Seattle,WA,98119,24 hours daily,,47.6246042,-122.3593182,GPS,Blink Network,https://blinkcharging.com,,King
 195124,ELEC,Washington State Convention Center Parking Garage,705 Pike ST,,Seattle,WA,98101,24 hours daily,,47.611378281765,-122.3314401402,GPS,Blink Network,https://blinkcharging.com,,King
 195133,ELEC,Cornerstone,4501 Intelco Loop SE,,Lacey,WA,98503,24 hours daily,,47.0001351,-122.8280101,GPS,Blink Network,https://blinkcharging.com,,Thurston
-195135,ELEC,Kalaloch Lodge,157151 Hwy 101,,Forks,WA,98331,24 hours daily,,47.6055171,-124.3715566,GPS,Blink Network,https://blinkcharging.com,,Clallam
+195135,ELEC,Kalaloch Lodge,157151 Hwy 101,,Forks,WA,98331,24 hours daily,,47.6055171,-124.3715566,GPS,Blink Network,https://blinkcharging.com,,Jefferson
 195247,ELEC,Willows Building D,12034 134th Court Northeast,,Redmond,WA,98052,24 hours daily,,47.7088267,-122.1601307,GPS,Blink Network,https://blinkcharging.com,,King
 195253,ELEC,Blue Lot,"712 Nollmeyer Lane, Tacoma, WA",,Tacoma,WA,98405,24 hours daily,,47.2535492,-122.4469825,GPS,Blink Network,https://blinkcharging.com,,Pierce
 195256,ELEC,Hotel Cathlamet Rear Parking Lot,69 Main Street,,Cathlamet,WA,98612,24 hours daily,,46.2025755,-123.3841695,GPS,Blink Network,https://blinkcharging.com,,Wahkiakum
@@ -1367,7 +1367,7 @@ ID,Fuel Type Code,Station Name,Street Address,Intersection Directions,City,State
 253643,ELEC,Walgreens 2100 NE 139TH ST VANCOUVER,2100 Ne 139Th,,Vancouver,WA,98686,Mon 8:00am - 10:00pm; Tue 8:00am - 10:00pm; Wed 8:00am - 10:00pm; Thu 8:00am - 10:00pm; Fri 8:00am - 10:00pm; Sat 8:00am - 10:00pm; Sun 8:00am - 10:00pm,,45.722257,-122.650906,GPS,SHELL_RECHARGE,https://www.shell.us/motorist/electric-vehicle-charging.html,,Clark
 253649,ELEC,Alderwood Mall Nordstrom,3000 184Th St Sw,,Lynnwood,WA,98037,Mon 6:00am - 11:59pm; Tue 6:00am - 11:59pm; Wed 6:00am - 11:59pm; Thu 6:00am - 11:59pm; Fri 6:00am - 11:59pm; Sat 6:00am - 11:59pm; Sun 6:00am - 11:59pm,,47.831167,-122.275227,GPS,SHELL_RECHARGE,https://www.shell.us/motorist/electric-vehicle-charging.html,,Snohomish
 253652,ELEC,Southport South Garage Level A,1103 Lake Washington Blvd. No.,,Renton,WA,98056,Mon 6:00am - 11:59pm; Tue 6:00am - 11:59pm; Wed 6:00am - 11:59pm; Thu 6:00am - 11:59pm; Fri 6:00am - 11:59pm; Sat 6:00am - 11:59pm; Sun 6:00am - 11:59pm,,47.501409,-122.204499,GPS,SHELL_RECHARGE,https://www.shell.us/motorist/electric-vehicle-charging.html,,King
-253838,ELEC,NORAM BLOCK 7 #15,1525 121st Ave NE,Garage,Bellevue,WA,98005,24 hours daily,,47.622476,-122.17888,GPS,ChargePoint Network,https://www.chargepoint.com,,King
+253838,ELEC,NORAM BLOCK 7 #15,1525 121st Ave NE,Garage,Bellevue,WA,98005,24 hours daily,,47.622476,-122.17888,GPS,ChargePoint Network,https://www.chargepoint.com,,Snohomish
 253922,ELEC,DWAYNE LANE'S DEALERSHIP,620 Auto Blvd,Mazda Dealership,Burlington,WA,98233,24 hours daily,,48.451235,-122.343842,GPS,ChargePoint Network,https://www.chargepoint.com,,Skagit
 254111,ELEC,NORAM BLOCK 7 #1 ADA,1525 121st Ave NE,Located at P1 of the garage. Station shared with ADA stall.,Bellevue,WA,98005,24 hours daily,,47.622443,-122.178877,GPS,ChargePoint Network,https://www.chargepoint.com,,King
 254503,ELEC,NORAM BLOCK 7 #12,1525 121st Ave NE,Garage,Bellevue,WA,98005,24 hours daily,,47.622449,-122.178919,GPS,ChargePoint Network,https://www.chargepoint.com,,King
@@ -2453,7 +2453,7 @@ West of Building 1600",,Shoreline,WA,98133,24 hours daily,,47.7486311,-122.35942
 390186,ELEC,Stevenson Library,120 NW Vancouver Ave,,Stevenson,WA,98648,24 hours daily,,45.695049,-121.881856,GPS,FLO,https://www.flo.com,,Skamania
 390249,ELEC,The Eight - Tesla Supercharger,10650 NE 8th St,,Bellevue,WA,98004,24 hours daily,PARKING_GARAGE,47.617714,-122.196617,GPS,Tesla,https://www.tesla.com/supercharger,P,King
 390323,ELEC,Fred Meyer - Tesla Supercharger,915 NW 45th St,,Seattle,WA,98107,24 hours daily,GROCERY,47.661146,-122.370395,GPS,Tesla,https://www.tesla.com/supercharger,P,King
-390350,ELEC,AVIARA EV1,"Aviara Condominiums 14915 38th Drive SE, Bldg",Located next to Building T Townhome,Bothell,WA,98012,24 hours daily,,47.861823,-122.1788,GPS,ChargePoint Network,https://www.chargepoint.com,,King
+390350,ELEC,AVIARA EV1,"Aviara Condominiums 14915 38th Drive SE, Bldg",Located next to Building T Townhome,Bothell,WA,98012,24 hours daily,,47.861823,-122.1788,GPS,ChargePoint Network,https://www.chargepoint.com,,Snohomish
 390420,ELEC,WinCo Foods - Tesla Supercharger,111 Columbia Point Dr,,Richland,WA,99352,24 hours daily,GROCERY,46.264027,-119.265336,GPS,Tesla,https://www.tesla.com/supercharger,P,Benton
 390493,ELEC,Gateway S.C. Shopping Mall - Tesla Supercharger,13314 Bothell-Everett Hwy,,Mill Creek,WA,98012,24 hours daily,SHOPPING_CENTER,47.877623,-122.212884,GPS,Tesla,https://www.tesla.com/supercharger,P,Snohomish
 390518,ELEC,Northway West Office Building - Tesla Supercharger,10700 Meridian Ave N,,Seattle,WA,98133,24 hours daily,OFFICE_BLDG,47.706949,-122.333572,GPS,Tesla,https://www.tesla.com/supercharger,P,King
