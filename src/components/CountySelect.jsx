@@ -21,9 +21,9 @@ export default function CountySelect({ selectedCounty, onSelectCounty }) {
   );
 
   return (
-    <div className="w-[500px]">
+    <div className="w-fit rounded-md">
       <Select value={selectedCounty} onValueChange={onSelectCounty}>
-        <SelectTrigger className="px-4 py-6 rounded-md bg-muted border-none">
+        <SelectTrigger className="px-4 py-6 rounded-md border-none">
           <SelectValue placeholder="Select a county">
             {selectedCounty === "WA" ? (
               <span className="text-3xl">Washington</span>
@@ -32,13 +32,13 @@ export default function CountySelect({ selectedCounty, onSelectCounty }) {
             )}
           </SelectValue>
         </SelectTrigger>
-        <SelectContent className="bg-background text-foreground rounded-xl p-2 space-y-2 shadow-lg">
+        <SelectContent className="bg-background text-foreground rounded-xl p-2 space-y-2 shadow-lg w-64">
           <Input
             type="text"
             placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="text-sm rounded-md px-3 py-2 border-none"
+            className="text-sm rounded-md px-3 my-2 border-none"
           />
 
           <div className="max-h-60 overflow-y-auto space-y-1">

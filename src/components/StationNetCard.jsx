@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useStationNetBreakdown } from "@/hooks/useStationNetBreakdown";
 import { Info } from "lucide-react";
-import IconCS from "@/assets/icon-cs.svg";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Tooltip as UITooltip,
@@ -10,39 +8,51 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
-import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  LabelList,
+} from "recharts";
 
 const COLORS = [
-  "var(--color-chart-2)",
-  "var(--color-chart-3)",
-  "var(--color-chart-4)",
-  "var(--color-chart-5)",
+  "var(--color-chart-2, #FFC107)",
+  "var(--color-chart-3, #4CAF50)",
+  "var(--color-chart-4, #2196F3)",
+  "var(--color-chart-5, #9E9E9E)",
+  "var(--color-chart-1, #F44336)",
+  "var(--color-chart-6, #FF9800)",
 ];
 
-const CustomLegend = ({ config, onHover, hoveredKey }) => {
+const LegendItem = ({ label, color }) => {
   return (
-    <div className="mt-0 flex flex-wrap gap-1">
-      {Object.entries(config).map(([key, { label, color, percent }]) => (
-        <div
-          key={key}
-          onMouseEnter={() => onHover(key)}
-          onMouseLeave={() => onHover(null)}
-          className={`flex items-center gap-1 text-sm px-2 py-1 rounded-md cursor-pointer transition-colors ${
-            hoveredKey === key
-              ? "bg-popover text-foreground"
-              : "text-foreground"
-          }`}
+    <div className="flex items-center gap-1.5 text-sm p-0 rounded-md">
+      <span
+        className="inline-block w-3 h-3 rounded-full shrink-0"
+        style={{ backgroundColor: color }}
+      />
+      <span className="flex-1 min-w-0">
+        <span
+          className="font-medium text-foreground block truncate"
+          title={label}
         >
-          <span
-            className="inline-block w-3 h-3 rounded-full"
-            style={{ backgroundColor: color }}
-          />
-          <span className="font-medium">{label}</span>
-          <span className="text-sm text-foreground">
-            ({percent.toFixed(1)}%)
-          </span>
-        </div>
+          {label}
+        </span>
+      </span>
+    </div>
+  );
+};
+
+const CustomLegend = ({ config }) => {
+  if (!config || Object.keys(config).length === 0) {
+    return null;
+  }
+  return (
+    <div className="flex flex-wrap justify-start items-start gap-y-0 gap-x-2.5 max-h-[72px] overflow-y-auto px-1 w-full">
+      {Object.entries(config).map(([key, { label, color }]) => (
+        <LegendItem key={key} label={label} color={color} />
       ))}
     </div>
   );
@@ -50,32 +60,59 @@ const CustomLegend = ({ config, onHover, hoveredKey }) => {
 
 export default function StationNetCard({ county = "WA" }) {
   const { data, loading, error } = useStationNetBreakdown(county);
-  const [hovered, setHovered] = React.useState(null);
+  const placeholderHeight = "h-56";
 
-  if (loading || !county) return <p className="text-center">Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!data.length) return <p className="text-center">No data found.</p>;
+  if (loading)
+    return (
+      <div
+        className={`text-center py-10 ${placeholderHeight} flex items-center justify-center w-full mx-auto rounded-xl bg-card shadow-lg`}
+      >
+        <p>Loading...</p>
+      </div>
+    );
+  if (error)
+    return (
+      <div
+        className={`text-center py-10 ${placeholderHeight} flex items-center justify-center w-full mx-auto rounded-xl bg-card shadow-lg`}
+      >
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  if (!data || data.length === 0)
+    return (
+      <div
+        className={`text-center py-10 ${placeholderHeight} flex items-center justify-center w-full mx-auto rounded-xl bg-card shadow-lg`}
+      >
+        <p>No data found for {county}.</p>
+      </div>
+    );
 
-  const total = data.reduce((sum, d) => sum + d.Percentage, 0);
+  const barChartData = [
+    data.reduce(
+      (obj, item) => {
+        obj[item["EV Network"]] = Number(item.Percentage) || 0;
+        return obj;
+      },
+      { name: "networks" }
+    ),
+  ];
 
-  const chartData = data.map((d) => ({
-    name: d["EV Network"],
-    value: d.Percentage,
-  }));
-
-  const chartConfig = chartData.reduce((acc, d, i) => {
-    acc[d.name] = {
-      label: d.name,
+  const chartConfig = data.reduce((acc, d, i) => {
+    const networkName = d["EV Network"];
+    acc[networkName] = {
+      label: networkName,
       color: COLORS[i % COLORS.length],
-      percent: (d.value / total) * 100,
+      percent: Number(d.Percentage) || 0,
     };
     return acc;
   }, {});
 
+  const dataKeys = Object.keys(chartConfig);
+
   return (
-    <Card className="w-full max-w-5xl gap-2">
+    <Card className="w-full max-w-5xl shadow-lg gap-2">
       <CardHeader className="flex flex-row justify-start items-center gap-2">
-        <CardTitle className="card-title text-left text-lg">
+        <CardTitle className="text-lg font-semibold text-foreground">
           Charging Station Network Provider
         </CardTitle>
         <TooltipProvider>
@@ -93,57 +130,62 @@ export default function StationNetCard({ county = "WA" }) {
         </TooltipProvider>
       </CardHeader>
       <CardContent className="flex flex-col justify-start items-start gap-0">
-        <ResponsiveContainer width="100%" height={220}>
-          <PieChart>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="50%"
-              stroke="none"
-              innerRadius={60}
-              outerRadius={85}
-              activeIndex={chartData.findIndex((d) => d.name === hovered)}
-              activeShape={(props) => (
-                <Sector
-                  {...props}
-                  outerRadius={90}
-                  innerRadius={60}
-                  stroke="none"
-                />
-              )}
-              dataKey="value"
-              nameKey="name"
-              onMouseLeave={() => setHovered(null)}
-            >
-              {chartData.map((entry, index) => {
-                const key = entry.name;
+        <div className="w-full">
+          <ResponsiveContainer width="100%" height={40}>
+            <BarChart layout="vertical" data={barChartData}>
+              <XAxis
+                type="number"
+                hide
+                domain={[0, 100]}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                type="category"
+                dataKey="name"
+                hide
+                axisLine={false}
+                tickLine={false}
+                width={0}
+              />
+              {dataKeys.map((key, index) => {
+                const R = 7;
+                let radiusConfig = [0, 0, 0, 0];
+
+                if (dataKeys.length === 1) {
+                  radiusConfig = [R, R, R, R];
+                } else if (index === 0) {
+                  radiusConfig = [R, 0, 0, R];
+                } else if (index === dataKeys.length - 1) {
+                  radiusConfig = [0, R, R, 0];
+                }
                 return (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                    onMouseEnter={() => setHovered(key)}
+                  <Bar
+                    key={key}
+                    dataKey={key}
+                    stackId="a"
+                    fill={
+                      chartConfig[key]?.color || COLORS[index % COLORS.length]
+                    }
+                    radius={radiusConfig}
                     style={{
-                      cursor: "pointer",
-                      transition: "all 0.2s ease-in-out",
+                      transition: "opacity 0.2s ease-in-out",
                     }}
-                  />
+                  >
+                    <LabelList
+                      dataKey={key}
+                      position="insideRight"
+                      formatter={(value) => `${Number(value).toFixed(0)}%`}
+                      fill="var(--chart-foreground)"
+                      style={{ fontSize: 14 }}
+                    />
+                  </Bar>
                 );
               })}
-            </Pie>
-            <foreignObject x="46%" y="42%" width={40} height={40}>
-              <img
-                src={IconCS}
-                alt="Charging Station Icon"
-                className="w-10 h-10"
-              />
-            </foreignObject>
-          </PieChart>
-        </ResponsiveContainer>
-        <CustomLegend
-          config={chartConfig}
-          onHover={setHovered}
-          hoveredKey={hovered}
-        />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <CustomLegend config={chartConfig} />
       </CardContent>
     </Card>
   );

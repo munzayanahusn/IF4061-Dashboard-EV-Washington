@@ -43,9 +43,9 @@ export default function TrendCard({ county = "WA" }) {
   }
 
   return (
-    <Card className="w-full h-full max-w-5xl gap-2">
+    <Card className="w-full h-[450px] max-w-5xl gap-2">
       {/* Header section with title and info tooltip */}
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-col items-start justify-center">
         <div className="flex items-center gap-2">
           <CardTitle className="text-base sm:text-lg">
             EV & Charging Station Trend
@@ -88,7 +88,7 @@ export default function TrendCard({ county = "WA" }) {
       {/* Line chart section */}
       <CardContent className="flex-1">
         <div className="h-full w-full">
-          <ResponsiveContainer width="100%" height={180}>
+          <ResponsiveContainer width="100%">
             <LineChart
               data={chartData}
               margin={{ top: 20, bottom: 10, left: 20, right: 30 }}
@@ -107,6 +107,7 @@ export default function TrendCard({ county = "WA" }) {
                 axisLine={false}
                 tickMargin={8}
                 interval={0}
+                fontSize={12}
               />
 
               {/* Y axis: Value counts */}
@@ -115,6 +116,7 @@ export default function TrendCard({ county = "WA" }) {
                 axisLine={false}
                 tickMargin={8}
                 tickFormatter={(val) => val.toLocaleString()}
+                fontSize={14}
               />
 
               {/* Tooltip to show EV and charging station values */}

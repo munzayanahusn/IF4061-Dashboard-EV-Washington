@@ -9,6 +9,8 @@ import EVTypCard from "./components/EVTypeCard";
 import StationNetCard from "./components/StationNetCard";
 import CountySelect from "./components/CountySelect";
 import BackButton from "./components/BackButton";
+import IconMap from "./components/IconMap";
+import RatioOverview from "./components/RatioOverview";
 
 function App() {
   const [selectedCounty, setSelectedCounty] = useState("WA");
@@ -19,7 +21,6 @@ function App() {
     } else {
       setSelectedCounty(countyInfo.countyName);
     }
-    console.log("County selected in App:", countyInfo);
   };
 
   const handleCountyClose = () => {
@@ -28,53 +29,43 @@ function App() {
 
   return (
     <div className="p-4 lg:p-6 m-6">
-      {/* Main Container */}
-      <div className="">
-        {/* Header */}
-        <header className="mb-6 lg:mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center-safe gap-4">
-            <h1 className="text-2xl lg:text-3xl font-weight-regular">
-              Electric Vehicle (EV) vs Charging Station Availability in
-            </h1>
-            <CountySelect
-              selectedCounty={selectedCounty}
-              onSelectCounty={handleCountyClick}
-            />
+      <div className="flex flex-col lg:flex-row lg:items-stretch gap-6 h-screen">
+        {/* Left Column */}
+        <div className="lg:flex-1 flex flex-col gap-6">
+          <div className="flex lg:flex-row flex-col gap-6">
+            <div className="flex flex-col gap-4">
+              <h1 className="text-2xl xl:text-3xl font-normal w-64 xl:w-lg">
+                Electric Vehicle (EV) vs <br /> Charging Station Availability in
+              </h1>
+              <CountySelect
+                selectedCounty={selectedCounty}
+                onSelectCounty={handleCountyClick}
+              />
+            </div>
+            <RatioCard county={selectedCounty} />
           </div>
-        </header>
-
-        {/* Main Grid Layout */}
-        <div className="lg:flex xl:gap-8">
-          {/* Left Column */}
-          <div className="lg:flex-1 flex flex-col justify-between gap-6 lg:gap-8">
-            {/* Map Section */}
-            <div className="relative w-full" style={{ height: "500px" }}>
-              {selectedCounty !== "WA" && (
-                <div className="absolute top-2 left-2 z-10">
-                  <BackButton onClick={handleCountyClose} />
-                </div>
-              )}
-              {selectedCounty === "WA" ? (
-                <ChoroplethMap onCountyClick={handleCountyClick} />
-              ) : (
+          <div className="w-full h-full">
+            {selectedCounty === "WA" ? (
+              <div className="flex flex-col gap-6">
+                <RatioOverview />
+                <IconMap onCountyClick={handleCountyClick} />
+              </div>
+            ) : (
+              <div className="flex flex-col gap-6">
+                <BackButton onClick={handleCountyClose} />
                 <BubblePlotMap
                   countyName={selectedCounty}
                   onClose={handleCountyClose}
                 />
-              )}
-            </div>
-            {/* Trend Section aligned to sidebar bottom */}
-            <div className="mb-6 lg:mb-0">
-              <TrendCard county={selectedCounty} />
-            </div>
+              </div>
+            )}
           </div>
-
-          {/* Right Column */}
-          <div className="lg:w-1/3 space-y-6 flex flex-col">
-            <RatioCard county={selectedCounty} />
-            <EVTypCard county={selectedCounty} />
-            <StationNetCard county={selectedCounty} />
-          </div>
+        </div>
+        {/* Right Column */}
+        <div className="lg:w-1/3 flex flex-col gap-6 h-full">
+          <TrendCard county={selectedCounty} />
+          <EVTypCard county={selectedCounty} />
+          <StationNetCard county={selectedCounty} />
         </div>
       </div>
     </div>

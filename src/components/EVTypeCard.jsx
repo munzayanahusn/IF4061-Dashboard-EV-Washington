@@ -52,7 +52,7 @@ export default function EVTypCard({ county = "WA" }) {
   }
 
   // Assuming data has these keys: countyName, countPHEV, countBEV, propPHEV, propBEV
-  const { countyName, countPHEV, countBEV, propPHEV, propBEV } = countyData;
+  const { countyName, propPHEV, propBEV } = countyData;
 
   // Prepare data for the chart
   const chartData = [
@@ -89,24 +89,10 @@ export default function EVTypCard({ county = "WA" }) {
             <XAxis type="number" hide domain={[0, 100]} />
             <YAxis type="category" dataKey="name" hide />
             <Bar
-              dataKey="PHEV"
-              stackId="a"
-              fill="var(--chart-5)"
-              radius={[6, 0, 0, 6]}
-            >
-              <LabelList
-                dataKey="PHEV"
-                position="insideRight"
-                formatter={(value) => `${value.toFixed(0)}%`}
-                fill="var(--chart-foreground)"
-                style={{ fontSize: 14 }}
-              />
-            </Bar>
-            <Bar
               dataKey="BEV"
               stackId="a"
               fill="var(--chart-1)"
-              radius={[0, 6, 6, 0]}
+              radius={[6, 0, 0, 6]}
             >
               <LabelList
                 dataKey="BEV"
@@ -116,14 +102,28 @@ export default function EVTypCard({ county = "WA" }) {
                 style={{ fontSize: 14 }}
               />
             </Bar>
+            <Bar
+              dataKey="PHEV"
+              stackId="a"
+              fill="var(--chart-5)"
+              radius={[0, 6, 6, 0]}
+            >
+              <LabelList
+                dataKey="PHEV"
+                position="insideRight"
+                formatter={(value) => `${value.toFixed(0)}%`}
+                fill="var(--chart-foreground)"
+                style={{ fontSize: 14 }}
+              />
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
         <div className="flex flex-row justify-between w-full px-2 text-sm text-foreground">
-          <div className="flex gap-1 text-left text-sm">
-            PHEV <img src={IconPHEV} alt="PHEV Icon" className="w-4 h-4" />
-          </div>
           <div className="flex gap-1 text-right text-sm">
             BEV <img src={IconBEV} alt="BEV Icon" className="w-4 h-4" />
+          </div>
+          <div className="flex gap-1 text-left text-sm">
+            PHEV <img src={IconPHEV} alt="PHEV Icon" className="w-4 h-4" />
           </div>
         </div>
       </CardContent>

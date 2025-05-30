@@ -40,10 +40,10 @@ export default function RatioCard({ county = "WA" }) {
 
   const { evCount, stationCount, ratio } = countyData;
   return (
-    <Card className="w-full max-w-5xl gap-2">
+    <Card className="w-full  gap-2">
       <CardHeader className="flex flex-row justify-start items-center gap-2">
         <CardTitle className="card-title text-left text-lg">
-          EV-to-Charger Ratio
+          Charger-to-EV Ratio
         </CardTitle>
         <TooltipProvider>
           <Tooltip>
@@ -52,7 +52,7 @@ export default function RatioCard({ county = "WA" }) {
             </TooltipTrigger>
             <TooltipContent className="w-xs p-4 bg-popover text-popover-foreground">
               <small>
-                The EV-to-charger ratio shows how many electric vehicles share
+                The Charger-to-EV ratio shows how many electric vehicles share
                 one charging station. The ideal range is{" "}
                 <span className="font-weight-bold">8–12</span> EVs per charger,
                 as recommended by SBD Automotive.
@@ -63,35 +63,7 @@ export default function RatioCard({ county = "WA" }) {
       </CardHeader>
       <CardContent className="flex flex-col justify-start items-start gap-3">
         <div className="flex flex-row justify-start items-center gap-3 group">
-          <p className="text-3xl">{ratio.toLocaleString("en-US")} : 1</p>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div
-                  className="w-3 h-3 rounded-full transition-opacity duration-200 group-hover:opacity-70"
-                  style={{
-                    backgroundColor:
-                      ratio <= 12
-                        ? "var(--color-primary)"
-                        : "var(--color-destructive)",
-                  }}
-                />
-              </TooltipTrigger>
-              <TooltipContent className="p-3 bg-popover text-popover-foreground">
-                {ratio <= 12 ? (
-                  <small>
-                    <span className="text-primary">Good</span> — charger
-                    availability is within/better than ideal range.
-                  </small>
-                ) : (
-                  <small>
-                    <span className="text-destructive">Too High</span> — not
-                    enough chargers for the number of EVs.
-                  </small>
-                )}
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <p className="text-3xl">{ratio.toLocaleString("en-US")}</p>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center gap-2 sm:gap-4">
