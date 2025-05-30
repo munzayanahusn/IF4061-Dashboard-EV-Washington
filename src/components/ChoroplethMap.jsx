@@ -96,12 +96,12 @@ const ChoroplethMap = ({ onCountyClick }) => {
     const y = e.clientY - rect.top;
     
     const tooltip = tooltipRef.current;
-    const tooltipWidth = 200;
+    const tooltipWidth = 80;
     const margin = 30;
     
     let tooltipX;
     if (x + margin + tooltipWidth > containerSize.width) {
-      tooltipX = Math.max(x - tooltipWidth - margin + 70, margin + 70);
+      tooltipX = Math.max(x - tooltipWidth - margin - 40, margin - 40);
     } else {
       tooltipX = x + margin;
     }
