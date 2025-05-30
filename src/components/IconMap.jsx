@@ -104,11 +104,11 @@ const IconMap = ({ onCountyClick }) => {
   const LINE_TO_COUNTY_MARGIN = 2;
   const COUNTY_NAME_Y_OFFSET = 0;
   const legendItemsSetup = [
-    { ratioClassKey: "1", displayType: "range", rangeIndex: 0 },
-    { ratioClassKey: "2", displayType: "range", rangeIndex: 1 },
-    { ratioClassKey: "3", displayType: "range", rangeIndex: 2 },
-    { ratioClassKey: "4", displayType: "range", rangeIndex: 3 },
-    { ratioClassKey: "0", displayType: "range", rangeIndex: 4 },
+    { ratioClassKey: "1", displayType: "range", rangeIndex: 1 },
+    { ratioClassKey: "2", displayType: "range", rangeIndex: 2 },
+    { ratioClassKey: "3", displayType: "range", rangeIndex: 3 },
+    { ratioClassKey: "4", displayType: "range", rangeIndex: 4 },
+    { ratioClassKey: "0", displayType: "label" },
   ];
 
   const countyDataMap = useMemo(() => {
