@@ -17,12 +17,40 @@ const BubblePlotMap = ({ countyName, onClose }) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
 
+  const [countyRoadJson, setCountyRoadJson] = useState(null);
+  const [roadLoading, setRoadLoading] = useState(false);
+  const [roadError, setRoadError] = useState(null);
+
   const { data: normalizedEvData, maxCount: maxCount, loading: evLoading, error: evError } = useEVData(countyName);
   const { data: stationData, loading: stationLoading, error: stationError } = useStationData(countyName);
   const { data: locationCountMap, loading: countLoading, error: countError } = useLocationCount();
 
   const globalEvMax = maxCount
   
+  useEffect(() => {
+    if (!countyName) return;
+
+    setRoadLoading(true);
+    setRoadError(null);
+
+    const path = `/county_road/${countyName}.json`;
+
+    fetch(path)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load road data for ${countyName}`);
+        return res.json();
+      })
+      .then(data => {
+        setCountyRoadJson(data);
+        setRoadLoading(false);
+      })
+      .catch(err => {
+        setCountyRoadJson(null);
+        setRoadError(err.message);
+        setRoadLoading(false);
+      });
+  }, [countyName]);
+
   useEffect(() => {
     const updateSize = () => {
       if (!containerRef.current) return;
@@ -60,6 +88,11 @@ const BubblePlotMap = ({ countyName, onClose }) => {
   }, []);
 
   useEffect(() => {
+    if (!containerRef.current || !svgRef.current) return;
+
+    if (!countyRoadJson) return;
+    if (!normalizedEvData || !stationData || !locationCountMap) return;
+
     const renderMap = (countyFeature, width, height) => {
       const svg = d3.select(svgRef.current);
       svg.selectAll('*').remove();
@@ -81,6 +114,10 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       const g = svg.append('g')
         .attr("transform", `translate(${offsetX},${offsetY})`);
 
+      const filteredRoads = countyRoadJson.features.filter(
+        roadFeature => roadFeature.geometry && roadFeature.geometry.type
+      );
+
       // Render county
       g.append('path')
         .datum(countyFeature)
@@ -88,6 +125,48 @@ const BubblePlotMap = ({ countyName, onClose }) => {
         .attr('fill', '#2D2C2C')
         .attr('stroke', '#666')
         .attr('opacity', 0.8);
+
+      // Render roads
+      g.append('g')
+        .attr('class', 'roads-layer')
+        .selectAll('path')
+        .data(filteredRoads)
+        .join('path')
+        .attr('d', path)
+        .attr('fill', 'none')
+        .attr('stroke', '#999')
+        .attr('stroke-width', 1)
+        .attr('opacity', 0.7);
+
+      // Render labels
+      const labelsGroup = g.append('g').attr('class', 'road-labels');
+
+      labelsGroup.selectAll('text')
+        .data(filteredRoads.filter(d => d.properties.FULLNAME))
+        .join('text')
+        .attr('class', 'road-label')
+        .attr('x', d => path.centroid(d)[0])
+        .attr('y', d => path.centroid(d)[1])
+        .text(d => d.properties.FULLNAME)
+        .attr('font-size', 8)
+        .attr('fill', '#666')
+        .attr('pointer-events', 'none')
+        .attr('text-anchor', 'middle')
+        .attr('alignment-baseline', 'middle')
+        .style('opacity', 0);
+
+      // Setup zoom behavior
+      const zoom = d3.zoom()
+        .scaleExtent([1, 20])
+        .on('zoom', (event) => {
+          g.attr('transform', event.transform);
+          const showLabels = event.transform.k > 3;
+          labelsGroup.selectAll('text')
+            .style('opacity', showLabels ? 1 : 0);
+        });
+
+      svg.call(zoom);
+      svg.call(zoom.transform, d3.zoomIdentity);
 
       // Render EV bubbles
       const grouped = d3.group(normalizedEvData, d => d.vehicleLocation);
