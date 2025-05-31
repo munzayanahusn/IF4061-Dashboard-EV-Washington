@@ -98,7 +98,6 @@ const IconMapLegend = ({
               borderRadius: "4px",
               transition: "background-color 0.2s ease, padding 0.2s ease",
             }}
-            // Consider adding onMouseEnter/onMouseLeave handlers here if you want legend hover to affect the map
           >
             <IconComponent
               color={iconColor}

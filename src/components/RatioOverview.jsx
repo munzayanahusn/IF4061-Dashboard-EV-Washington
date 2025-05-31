@@ -114,7 +114,7 @@ export default function RatioOverview() {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:flex lg:flex-wrap lg:justify-start xl:justify-between lg:items-start">
+    <div className="grid grid-cols-1 gap-6.5 lg:flex lg:flex-wrap lg:justify-start lg:items-start max-w-4xl">
       {cardStats.map((stat) => (
         <InfoCard
           key={stat.id}

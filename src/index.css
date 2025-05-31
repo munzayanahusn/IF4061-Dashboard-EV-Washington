@@ -33,7 +33,7 @@
 
   --border: oklch(0.2768 0 0);
   --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --ring: oklch(0.2768 0 0);
 
   --chart-1: oklch(0.705 0.14 169.5);
   --chart-2: oklch(0.8347 0.1714 82.5);
@@ -124,6 +124,7 @@
 @layer base {
   * {
     @apply border-[var(--color-border)] outline-ring/50 text-left;
+    border: #292929;
     margin: 0px;
     padding: 0px;
   }

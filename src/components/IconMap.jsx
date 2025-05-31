@@ -527,7 +527,10 @@ const IconMap = ({ onCountyClick }) => {
         })()}
 
       {/* Legend */}
-      <div style={{ position: "absolute", bottom: -48, left: 10, zIndex: 10 }}>
+      <div
+        className="hidden md:block"
+        style={{ position: "absolute", bottom: -48, left: 10, zIndex: 10 }}
+      >
         <IconMapLegend
           indicatorConfig={indicatorConfig}
           legendItemsSetup={legendItemsSetup}
