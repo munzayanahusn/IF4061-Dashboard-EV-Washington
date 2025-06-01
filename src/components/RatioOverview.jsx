@@ -81,7 +81,7 @@ export default function RatioOverview() {
       iconFillClass: "fill-[var(--color-map-range-1)]",
       value: highSeverity,
       textLine1: "High Shortage",
-      textLine1ColorClass: "text-[--color-map-range-1]",
+      textLine1ColorClass: "text-[var(--color-map-range-1)]",
       textLine2: "Counties",
     },
     {
