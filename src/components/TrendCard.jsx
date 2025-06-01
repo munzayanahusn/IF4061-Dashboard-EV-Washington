@@ -23,6 +23,15 @@ import {
 } from "../components/ui/tooltip";
 import { useEVChargingTrendData } from "../hooks/useEVChargingTrendData";
 
+const formatYearAbbreviated = (yearValue) => {
+  if (window.matchMedia("(max-width: 1400px)").matches) {
+    const yearStr = String(yearValue);
+    return `'${yearStr.slice(-2)}`; // e.g., 2007 becomes '07
+  } else {
+    return yearValue; // Full year for larger screens
+  }
+};
+
 export default function TrendCard({ county = "WA" }) {
   const { data: chartData, loading, error } = useEVChargingTrendData(county);
 
@@ -107,6 +116,7 @@ export default function TrendCard({ county = "WA" }) {
                 axisLine={false}
                 tickMargin={8}
                 interval={0}
+                tickFormatter={formatYearAbbreviated}
                 fontSize={12}
               />
 

@@ -43,6 +43,12 @@
   --chart-accent: oklch(0.4934 0.0085 173.55);
   --chart-foreground: oklch(0.1264 0.0176 173.55);
 
+  --map-range-0: #8d8d8d;
+  --map-range-1: #ff6469;
+  --map-range-2: #ff6133;
+  --map-range-3: #ff9133;
+  --map-range-4: #28a745;
+
   --sidebar: oklch(0.984 0.003 247.858);
   --sidebar-foreground: oklch(0.129 0.042 264.695);
   --sidebar-primary: oklch(0.208 0.042 265.755);
@@ -108,6 +114,11 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
   --color-chart-6: var(--chart-6);
+  --color-map-range-0: var(--map-range-0);
+  --color-map-range-1: var(--map-range-1);
+  --color-map-range-2: var(--map-range-2);
+  --color-map-range-3: var(--map-range-3);
+  --color-map-range-4: var(--map-range-4);
   --color-chart-accent: var(--chart-accent);
   --color-chart-foreground: var(--chart-foreground);
   --color-sidebar: var(--sidebar);

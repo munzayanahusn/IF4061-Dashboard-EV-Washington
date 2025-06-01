@@ -78,10 +78,10 @@ export default function RatioOverview() {
     {
       id: "high",
       icon: TriangleAlert,
-      iconFillClass: "fill-[#FF6469]",
+      iconFillClass: "fill-[var(--color-map-range-1)]",
       value: highSeverity,
-      textLine1: "High Severity",
-      textLine1ColorClass: "text-[#FF6469]",
+      textLine1: "High Shortage",
+      textLine1ColorClass: "text-[--color-map-range-1]",
       textLine2: "Counties",
     },
     {
@@ -89,32 +89,32 @@ export default function RatioOverview() {
       icon: IconMidlow,
       iconFillClass: "",
       value: midAndLowSeverity,
-      textLine1: "Mid & Low Severity",
-      textLine1ColorClass: "text-[#FF7D52]",
+      textLine1: "Mid & Low Shortage",
+      textLine1ColorClass: "text-[var(--color-map-range-3)]",
       textLine2: "Counties",
     },
     {
       id: "good",
       icon: ThumbsUp,
-      iconFillClass: "fill-[#28A745]",
+      iconFillClass: "fill-[var(--color-map-range-4)]",
       value: goodCounties,
       textLine1: "Good",
-      textLine1ColorClass: "text-[#28A745]",
+      textLine1ColorClass: "text-[var(--color-map-range-4)]",
       textLine2: "Counties",
     },
     {
       id: "unknown",
       icon: TriangleAlert,
-      iconFillClass: "fill-[#6C757D]",
+      iconFillClass: "fill-[var(--color-map-range-0)]",
       value: unknownCounties,
       textLine1: "No Station",
-      textLine1ColorClass: "text-[#6C757D]",
+      textLine1ColorClass: "text-[var(--color-map-range-0)]",
       textLine2: "Counties",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-6.5 lg:flex lg:flex-wrap lg:justify-start lg:items-start max-w-4xl">
+    <div className="grid grid-cols-1 gap-6 lg:flex xl:flex-nowrap lg:justify-start lg:items-start xl:justify-between">
       {cardStats.map((stat) => (
         <InfoCard
           key={stat.id}

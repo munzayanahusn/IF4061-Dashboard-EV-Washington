@@ -31,7 +31,7 @@ const IconMap = ({ onCountyClick }) => {
           stroke={indicatorConfig.commonStroke}
         />
       ),
-      iconColor: "#8D8D8D",
+      iconColor: "var(--color-map-range-0)",
       circleFill: "#282828",
       label: "No Station",
     },
@@ -43,7 +43,7 @@ const IconMap = ({ onCountyClick }) => {
           stroke={indicatorConfig.commonStroke}
         />
       ),
-      iconColor: "#28A745",
+      iconColor: "var(--color-map-range-4)",
       circleFill: "#282828",
       label: "Good",
     },
@@ -55,7 +55,7 @@ const IconMap = ({ onCountyClick }) => {
           stroke={indicatorConfig.commonStroke}
         />
       ),
-      iconColor: "#FFB04A",
+      iconColor: "var(--color-map-range-3)",
       circleFill: "#282828",
       label: "Low Severity",
     },
@@ -67,7 +67,7 @@ const IconMap = ({ onCountyClick }) => {
           stroke={indicatorConfig.commonStroke}
         />
       ),
-      iconColor: "#FF7D52",
+      iconColor: "var(--color-map-range-2)",
       circleFill: "#282828",
       label: "Mid Severity",
     },
@@ -79,7 +79,7 @@ const IconMap = ({ onCountyClick }) => {
           stroke={indicatorConfig.commonStroke}
         />
       ),
-      iconColor: "#FF6469",
+      iconColor: "var(--color-map-range-1)",
       circleFill: "#282828",
       label: "High Severity",
     },
@@ -91,7 +91,7 @@ const IconMap = ({ onCountyClick }) => {
           stroke={indicatorConfig.commonStroke}
         />
       ),
-      iconColor: "#6C757D",
+      iconColor: "var(--color-map-range-0)",
       circleFill: "#282828",
       label: "Unknown",
     },
