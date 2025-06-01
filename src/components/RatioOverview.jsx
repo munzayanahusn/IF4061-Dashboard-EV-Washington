@@ -11,10 +11,16 @@ const InfoCard = ({
   textLine1,
   textLine1ColorClass,
   textLine2,
-  textLine2ColorClass = "text-neutral-400",
+  textLine2ColorClass = "text-muted-foreground",
+  onMouseEnter,
+  onMouseLeave,
 }) => {
   return (
-    <Card className="w-full lg:w-fit p-4">
+    <Card
+      className="w-full lg:w-fit p-4 cursor-default hover:bg-[#282828] transition-colors duration-200"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <CardContent className="flex items-center space-x-3 px-1">
         <Icon
           className={`w-6 h-6 ${iconFillClass} stroke-[#282828] text-transparent shrink-0`}
@@ -39,7 +45,7 @@ const InfoCard = ({
   );
 };
 
-export default function RatioOverview() {
+export default function RatioOverview({ onHoverCategory }) {
   const { data, loading, error } = useRatioOverview();
 
   if (loading) {
@@ -74,6 +80,15 @@ export default function RatioOverview() {
   const goodCounties = data.find((d) => d.Status === "Good")?.Number || 0;
   const unknownCounties = data.find((d) => d.Status === "Unknown")?.Number || 0;
 
+  // if data is 0 or 1, write countyText as "County" instead of "Counties"
+  const countyText = (count) => {
+    return count === 1 ? "County\u00A0" : "Counties";
+  };
+  const highSeverityText = countyText(highSeverity);
+  const midAndLowSeverityText = countyText(midAndLowSeverity);
+  const goodCountiesText = countyText(goodCounties);
+  const unknownCountiesText = countyText(unknownCounties);
+
   const cardStats = [
     {
       id: "high",
@@ -82,7 +97,7 @@ export default function RatioOverview() {
       value: highSeverity,
       textLine1: "High Shortage",
       textLine1ColorClass: "text-[var(--color-map-range-1)]",
-      textLine2: "Counties",
+      textLine2: highSeverityText,
     },
     {
       id: "midlow",
@@ -91,7 +106,7 @@ export default function RatioOverview() {
       value: midAndLowSeverity,
       textLine1: "Mid & Low Shortage",
       textLine1ColorClass: "text-[var(--color-map-range-3)]",
-      textLine2: "Counties",
+      textLine2: midAndLowSeverityText,
     },
     {
       id: "good",
@@ -100,7 +115,7 @@ export default function RatioOverview() {
       value: goodCounties,
       textLine1: "Good",
       textLine1ColorClass: "text-[var(--color-map-range-4)]",
-      textLine2: "Counties",
+      textLine2: goodCountiesText,
     },
     {
       id: "unknown",
@@ -109,7 +124,7 @@ export default function RatioOverview() {
       value: unknownCounties,
       textLine1: "No Station",
       textLine1ColorClass: "text-[var(--color-map-range-0)]",
-      textLine2: "Counties",
+      textLine2: unknownCountiesText,
     },
   ];
 
@@ -125,6 +140,8 @@ export default function RatioOverview() {
           textLine1ColorClass={stat.textLine1ColorClass}
           textLine2={stat.textLine2}
           textLine2ColorClass={stat.textLine2ColorClass}
+          onMouseEnter={() => onHoverCategory && onHoverCategory(stat.id)}
+          onMouseLeave={() => onHoverCategory && onHoverCategory(null)}
         />
       ))}
     </div>
