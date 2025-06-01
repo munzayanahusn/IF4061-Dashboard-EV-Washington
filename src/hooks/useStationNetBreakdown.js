@@ -1,27 +1,37 @@
 import { useState, useEffect } from "react";
 import * as d3 from "d3";
 
+// Global cache for the parsed CSV
+let _allNetworkData = null;
+let _loadPromise = null;
+
 export const useStationNetBreakdown = (countyName) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadData = async () => {
-      if (!countyName) {
-        setData([]);
-        setLoading(false);
-        return;
-      }
+    let isMounted = true;
+    const fetchAndFilter = async () => {
+      setLoading(true);
+      setError(null);
 
       try {
-        setLoading(true);
-        setError(null);
-
-        const raw = await d3.csv("/data/ev_network_by_county.csv", d3.autoType);
+        // If not loaded yet, load once
+        if (!_allNetworkData) {
+          if (!_loadPromise) {
+            _loadPromise = d3
+              .csv("/data/ev_network_by_county.csv", d3.autoType)
+              .then((rows) => {
+                _allNetworkData = rows;
+                return rows;
+              });
+          }
+          await _loadPromise;
+        }
 
         // Filter data for selected county
-        const filteredData = raw.filter(
+        const filteredData = _allNetworkData.filter(
           (d) => d.County && d.County.toLowerCase() === countyName.toLowerCase()
         );
 
@@ -44,16 +54,20 @@ export const useStationNetBreakdown = (countyName) => {
           });
         }
 
-        setData(top3);
+        if (isMounted) setData(top3);
       } catch (err) {
-        console.error("Failed to load EV network breakdown:", err);
-        setError("Failed to load EV network data");
+        if (isMounted) {
+          setError("Failed to load EV network data");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
-    loadData();
+    fetchAndFilter();
+    return () => {
+      isMounted = false;
+    };
   }, [countyName]);
 
   return { data, loading, error };
