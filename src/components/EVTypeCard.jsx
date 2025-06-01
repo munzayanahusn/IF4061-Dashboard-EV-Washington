@@ -93,6 +93,7 @@ export default function EVTypCard({ county = "WA" }) {
               stackId="a"
               fill="var(--chart-1)"
               radius={[6, 0, 0, 6]}
+              isAnimationActive={false}
             >
               <LabelList
                 dataKey="BEV"
@@ -103,6 +104,7 @@ export default function EVTypCard({ county = "WA" }) {
               />
             </Bar>
             <Bar
+              isAnimationActive={false}
               dataKey="PHEV"
               stackId="a"
               fill="var(--chart-5)"

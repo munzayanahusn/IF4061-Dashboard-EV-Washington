@@ -14,6 +14,7 @@ import RatioOverview from "./components/RatioOverview";
 
 function App() {
   const [selectedCounty, setSelectedCounty] = useState("WA");
+  const [hoveredRatioCategory, setHoveredRatioCategory] = useState(null);
 
   const handleCountyClick = (countyInfo) => {
     if (typeof countyInfo === "string") {
@@ -46,11 +47,16 @@ function App() {
               </div>
               <RatioCard county={selectedCounty} />
             </div>
-            {selectedCounty === "WA" && <RatioOverview />}
+            {selectedCounty === "WA" && (
+              <RatioOverview onHoverCategory={setHoveredRatioCategory} />
+            )}
           </div>
           <div className="w-full h-full">
             {selectedCounty === "WA" ? (
-              <IconMap onCountyClick={handleCountyClick} />
+              <IconMap
+                onCountyClick={handleCountyClick}
+                highlightCategory={hoveredRatioCategory}
+              />
             ) : (
               <div className="flex flex-col gap-6">
                 <BackButton onClick={handleCountyClose} />

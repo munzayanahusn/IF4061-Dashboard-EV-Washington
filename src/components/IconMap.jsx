@@ -6,7 +6,7 @@ import { useEVChargingCount } from "../hooks/useEVChargingCount";
 import { ThumbsUp, AlertTriangle } from "lucide-react";
 import IconMapLegend from "./IconMapLegend";
 
-const IconMap = ({ onCountyClick }) => {
+const IconMap = ({ onCountyClick, highlightCategory }) => {
   const { data, loading, breaks, error } = useEVChargingCount();
   const ratioBreaks = breaks?.ratioBreaks || [];
   const containerRef = useRef(null);
@@ -57,7 +57,7 @@ const IconMap = ({ onCountyClick }) => {
       ),
       iconColor: "var(--color-map-range-3)",
       circleFill: "#282828",
-      label: "Low Severity",
+      label: "Low Shortage",
     },
     3: {
       IconComponent: (props) => (
@@ -69,7 +69,7 @@ const IconMap = ({ onCountyClick }) => {
       ),
       iconColor: "var(--color-map-range-2)",
       circleFill: "#282828",
-      label: "Mid Severity",
+      label: "Mid Shortage",
     },
     4: {
       IconComponent: (props) => (
@@ -81,7 +81,7 @@ const IconMap = ({ onCountyClick }) => {
       ),
       iconColor: "var(--color-map-range-1)",
       circleFill: "#282828",
-      label: "High Severity",
+      label: "High Shortage",
     },
     default: {
       IconComponent: (props) => (
@@ -404,6 +404,30 @@ const IconMap = ({ onCountyClick }) => {
                 label: indicatorLabel,
               } = indicatorDetails;
 
+              let isDimmed = false;
+              if (highlightCategory) {
+                // If a category is hovered in RatioOverview
+                let categoryMatches = false;
+                if (highlightCategory === "high" && ratioClassKey === "4")
+                  categoryMatches = true;
+                else if (highlightCategory === "good" && ratioClassKey === "1")
+                  categoryMatches = true;
+                else if (
+                  highlightCategory === "unknown" &&
+                  ratioClassKey === "0"
+                )
+                  categoryMatches = true;
+                else if (
+                  highlightCategory === "midlow" &&
+                  (ratioClassKey === "2" || ratioClassKey === "3")
+                )
+                  categoryMatches = true;
+
+                if (!categoryMatches) {
+                  isDimmed = true; // Dim if this icon doesn't match the hovered category
+                }
+              }
+
               const formattedName = countyName
                 .split(" ")
                 .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -419,7 +443,11 @@ const IconMap = ({ onCountyClick }) => {
                   onMouseEnter={(e) => handleMouseEnter(datum, e)}
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
-                  style={{ cursor: "pointer" }}
+                  style={{
+                    cursor: "pointer",
+                    opacity: isDimmed ? 0.1 : 1,
+                    transition: "opacity 0.2s ease-in-out",
+                  }}
                 >
                   <line
                     x1={0}
