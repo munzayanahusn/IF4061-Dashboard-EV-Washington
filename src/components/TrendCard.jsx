@@ -139,20 +139,24 @@ export default function TrendCard({ county = "WA" }) {
 
         <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:justify-between w-full mt-2">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
-              <span
-                className="h-2 w-4 rounded-full"
-                style={{ backgroundColor: evColor }}
-              ></span>
-              <span className="text-sm">EV</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span
-                className="h-2 w-4 rounded-full"
-                style={{ backgroundColor: chargingColor }}
-              ></span>
-              <span className="text-sm">Charging Station</span>
-            </div>
+            {(filter === "all" || filter === "ev") && (
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="h-2 w-4 rounded-full"
+                  style={{ backgroundColor: evColor }}
+                ></span>
+                <span className="text-sm">EV</span>
+              </div>
+            )}
+            {(filter === "all" || filter === "charging") && (
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="h-2 w-4 rounded-full"
+                  style={{ backgroundColor: chargingColor }}
+                ></span>
+                <span className="text-sm">Charging Station</span>
+              </div>
+            )}
           </div>
 
           {/* Shadcn Select for filtering */}

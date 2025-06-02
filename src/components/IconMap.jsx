@@ -551,7 +551,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
                 />
                 <strong style={{ color: iconColor }}>{statusLabel}</strong>
               </div>
-              Ratio: {Number(hoveredCountyData.ratio).toFixed(2)}
+              Ratio: {hoveredCountyData.ratio}
               <br />
               Charging Stations: {hoveredCountyData.stationCount}
               <br />

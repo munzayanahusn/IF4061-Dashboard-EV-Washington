@@ -24,7 +24,7 @@ const InfoCard = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <CardContent className="flex items-center space-x-3 px-1">
+      <CardContent className="flex items-center space-x-2 px-1">
         <Icon
           className={`${iconCustomSize} ${iconFillClass} stroke-[#282828] text-transparent shrink-0`}
         />
