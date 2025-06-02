@@ -3,7 +3,8 @@ import * as d3 from "d3";
 import bbox from "@turf/bbox";
 import mapJson from "../data/map/WA_map.json";
 import { useEVChargingCount } from "../hooks/useEVChargingCount";
-import { ThumbsUp, AlertTriangle } from "lucide-react";
+import { ThumbsUp, AlertTriangle, ShieldAlert, CircleX } from "lucide-react";
+import IconOctagonAlert from "@/assets/icon-octagon-alert.svg?react";
 import IconMapLegend from "./IconMapLegend";
 
 const IconMap = ({ onCountyClick, highlightCategory }) => {
@@ -25,7 +26,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
     commonStroke: "#282828",
     0: {
       IconComponent: (props) => (
-        <AlertTriangle
+        <CircleX
           {...props}
           fill={props.color}
           stroke={indicatorConfig.commonStroke}
@@ -61,7 +62,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
     },
     3: {
       IconComponent: (props) => (
-        <AlertTriangle
+        <ShieldAlert
           {...props}
           fill={props.color}
           stroke={indicatorConfig.commonStroke}
@@ -73,10 +74,12 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
     },
     4: {
       IconComponent: (props) => (
-        <AlertTriangle
+        <IconOctagonAlert
           {...props}
           fill={props.color}
           stroke={indicatorConfig.commonStroke}
+          width={props.size}
+          height={props.size}
         />
       ),
       iconColor: "var(--color-map-range-1)",
@@ -98,7 +101,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
   };
 
   const ICON_CIRCLE_RADIUS = 12;
-  const LUCIDE_ICON_SIZE = 14;
+  const LUCIDE_ICON_SIZE = 16;
   const TOOLTIP_ICON_SIZE = 16;
   const ICON_GROUP_Y_OFFSET = 20;
   const LINE_TO_COUNTY_MARGIN = 2;

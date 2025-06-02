@@ -168,9 +168,7 @@ export default function StationNetCard({ county = "WA" }) {
                       chartConfig[key]?.color || COLORS[index % COLORS.length]
                     }
                     radius={radiusConfig}
-                    style={{
-                      transition: "opacity 0.2s ease-in-out",
-                    }}
+                    isAnimationActive={false}
                   >
                     <LabelList
                       dataKey={key}

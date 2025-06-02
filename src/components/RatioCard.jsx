@@ -3,7 +3,8 @@ import { useEVChargingCount } from "@/hooks/useEVChargingCount";
 import IconCs from "@/assets/icon-cs.svg";
 import IconEv from "@/assets/icon-ev.svg";
 import { Info } from "lucide-react";
-import { TriangleAlert, ThumbsUp } from "lucide-react";
+import { TriangleAlert, ThumbsUp, CircleX, ShieldAlert } from "lucide-react";
+import IconOctagonAlert from "@/assets/icon-octagon-alert.svg?react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -61,13 +62,13 @@ export default function RatioCard({ county = "WA" }) {
       textColor: "text-[var(--color-map-range-3)]",
     },
     3: {
-      icon: TriangleAlert,
+      icon: ShieldAlert,
       fill: "fill-[var(--color-map-range-2)]",
       text: "Mid Shortage",
       textColor: "text-[var(--color-map-range-2)]",
     },
     4: {
-      icon: TriangleAlert,
+      icon: IconOctagonAlert,
       fill: "fill-[var(--color-map-range-1)]",
       text: "High Shortage",
       textColor: "text-[var(--color-map-range-1)]",

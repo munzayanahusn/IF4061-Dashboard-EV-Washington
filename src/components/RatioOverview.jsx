@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { TriangleAlert, ThumbsUp } from "lucide-react";
+import { TriangleAlert, ThumbsUp, CircleX } from "lucide-react";
 import { useRatioOverview } from "@/hooks/useRatioOverview";
 import IconMidlow from "@/assets/icon-midlow.svg?react";
 
 const InfoCard = ({
   icon: Icon,
   iconFillClass,
+  iconCustomSize,
   value,
   textLine1,
   textLine1ColorClass,
@@ -23,7 +24,7 @@ const InfoCard = ({
     >
       <CardContent className="flex items-center space-x-3 px-1">
         <Icon
-          className={`w-6 h-6 ${iconFillClass} stroke-[#282828] text-transparent shrink-0`}
+          className={`${iconCustomSize} ${iconFillClass} stroke-[#282828] text-transparent shrink-0`}
         />
         <div className="flex items-center space-x-2 sm:space-x-3">
           <p className="text-3xl text-white shrink-0">{value}</p>
@@ -107,6 +108,7 @@ export default function RatioOverview({ onHoverCategory }) {
       textLine1: "Mid & Low Shortage",
       textLine1ColorClass: "text-[var(--color-map-range-3)]",
       textLine2: midAndLowSeverityText,
+      iconCustomSize: "w-8 h-8",
     },
     {
       id: "good",
@@ -119,7 +121,7 @@ export default function RatioOverview({ onHoverCategory }) {
     },
     {
       id: "unknown",
-      icon: TriangleAlert,
+      icon: CircleX,
       iconFillClass: "fill-[var(--color-map-range-0)]",
       value: unknownCounties,
       textLine1: "No Station",
@@ -135,6 +137,7 @@ export default function RatioOverview({ onHoverCategory }) {
           key={stat.id}
           icon={stat.icon}
           iconFillClass={stat.iconFillClass}
+          iconCustomSize={stat.iconCustomSize ? stat.iconCustomSize : "w-6 h-6"}
           value={stat.value}
           textLine1={stat.textLine1}
           textLine1ColorClass={stat.textLine1ColorClass}
