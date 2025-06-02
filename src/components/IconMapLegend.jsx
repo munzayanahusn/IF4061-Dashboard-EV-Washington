@@ -64,7 +64,7 @@ const IconMapLegend = ({
           const fromValueRaw = breaks[rangeIndex];
           // Logic from ChoroplethLegendVert for "from" part of range label
           const fromForLabel =
-            rangeIndex === 0 ? fromValueRaw : fromValueRaw + 0.01;
+            rangeIndex === 0 ? fromValueRaw : fromValueRaw + 0.001;
           const toForLabel = breaks[rangeIndex + 1];
 
           // Handle last range potentially being "X+"
@@ -73,12 +73,12 @@ const IconMapLegend = ({
             (rangeIndex === breaks.length - 2 && toForLabel > 100000)
           ) {
             // breaks.length-2 is the last valid rangeIndex
-            displayLabelText = `${formatNumber(fromForLabel, 2)}+`;
+            displayLabelText = `${formatNumber(fromForLabel, 3)}+`;
           } else {
             displayLabelText = `${formatNumber(
               fromForLabel,
-              2
-            )} – ${formatNumber(toForLabel, 2)}`;
+              3
+            )} – ${formatNumber(toForLabel, 3)}`;
           }
         } else if (displayType === "label") {
           displayLabelText = configLabel; // Use the label from indicatorConfig

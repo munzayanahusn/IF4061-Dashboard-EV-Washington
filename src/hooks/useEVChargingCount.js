@@ -12,14 +12,22 @@ export function useEVChargingCount() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const raw = await d3.csv('/data/ratio_ev_station_v2.csv', d3.autoType);
+        const raw = await d3.csv('/data/ratio_ev_station_v5.csv', d3.autoType);
         
         // console.log("Raw CSV data sample:", raw[0]);
         
         // Filter out null values
         const evValues = raw.map(d => isNaN(d.ev_count) || d.ev_count == null ? 0 : d.ev_count);
         const stationValues = raw.map(d => isNaN(d.station_count) || d.station_count == null ? 0 : d.station_count);
-        const ratioValues = raw.map(d => isNaN(d.ev_per_station) || d.ev_per_station == null ? 0 : d.ev_per_station);
+        const ratioValues = raw.map(d => isNaN(d.station_per_ev) || d.station_per_ev == null ? 0 : d.station_per_ev);
+
+        const ratioClasses = raw.map(d => {
+          if (d.ratio_class && typeof d.ratio_class === 'string') {
+            const match = d.ratio_class.match(/\d+/);
+            return match ? parseInt(match[0], 10) : 0;
+          }
+          return 0;
+        });
 
         if (evValues.length < 3 || stationValues.length < 3 || ratioValues.length < 5) {
           throw new Error("Not enough data to create categories");
@@ -30,17 +38,20 @@ export function useEVChargingCount() {
         const stationBreaks = calculateNaturalBreaks(stationValues, 4, true);
 
         // Calculate natural breaks ratio (5 classes)
-        const upperRatios = ratioValues.filter(val => val > 12.00);
-        const upperBreaks = calculateNaturalBreaks(upperRatios, 3, false);
-        const ratioBreaks = [0, 7.99, 12.00, ...upperBreaks.slice(1)];
+        // const upperRatios = ratioValues.filter(val => val > 12.00);
+        // const upperBreaks = calculateNaturalBreaks(upperRatios, 3, false);
+        // const ratioBreaks = [0, 7.99, 12.00, ...upperBreaks.slice(1)];
+
+        const ratioBreaks = [0, 0.0045070610623309, 0.0213903743315508, 0.0422960725075528, 0.083, 0.125];
 
         // console.log("EV breaks:", evBreaks);
         // console.log("Station breaks:", stationBreaks);
+        // console.log("Ratio breaks:", ratioBreaks);
 
-        const processed = raw.map(d => {
+        const processed = raw.map((d, index) => {
           const ev = isNaN(d.ev_count) || d.ev_count == null ? 0 : d.ev_count;
           const station = isNaN(d.station_count) || d.station_count == null ? 0 : d.station_count;
-          const ratio = isNaN(d.ev_per_station) || d.ev_per_station == null ? 0 : d.ev_per_station;
+          const ratio = isNaN(d.station_per_ev) || d.station_per_ev == null ? 0 : d.station_per_ev;
 
           return {
             ...d,
@@ -50,7 +61,7 @@ export function useEVChargingCount() {
             ratio: ratio.toFixed(2),
             evClass: getJenksCategory(ev, evBreaks),
             stationClass: getJenksCategory(station, stationBreaks),
-            ratioClass: getJenksCategory(ratio, ratioBreaks),
+            ratioClass: ratioClasses[index],
             bivariateClass: `${getJenksCategory(ev, evBreaks)}-${getJenksCategory(station, stationBreaks)}`
           };
         });
