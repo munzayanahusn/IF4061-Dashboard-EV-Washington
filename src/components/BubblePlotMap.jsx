@@ -8,7 +8,8 @@ import mapJson from "../data/map/WA_map.json";
 import { PropagateLoader } from "react-spinners";
 import IconCS from "@/assets/icon-cs.svg?react";
 import IconEV from "@/assets/icon-ev.svg?react";
-import BubblePlotMapLegend from "./BubblePlotMapLegend";
+import { BubblePlotMapLegend, BubblePlotMapInfo } from "./BubblePlotMapLegend";
+import { SquareArrowOutUpRight } from "lucide-react";
 
 // CONFIG
 const EV_BUBBLE_SCALE = 1; // Base radius for EV bubbles
@@ -84,7 +85,6 @@ const BubblePlotMap = ({ countyName, onClose }) => {
     }
 
     const { width, height } = dimensions;
-
     const margin = { top: 30, right: 30, bottom: 30, left: 30 };
     const scaler = 0.8;
     const innerWidth = width * scaler - margin.left - margin.right;
@@ -96,7 +96,6 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       .fitSize([innerWidth, innerHeight], countyFeature);
 
     const path = geoPath().projection(projection);
-
     const offsetX = (width - innerWidth) / 2;
     const offsetY = (height - innerHeight) / 2;
 
@@ -121,14 +120,17 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       };
     }).filter((d) => d.longitude && d.latitude);
 
+    const openGoogleMaps = (lat, lon) => {
+      if (lat && lon) {
+        const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+        window.open(url, "_blank");
+      }
+    };
+
     locationData.forEach((d) => {
       const [x, y] = projection([d.longitude, d.latitude]);
       if (x && y && d.evCount > 0) {
-        // Ensure evCount is positive for Math.sqrt
-        // Calculate radius so that area = evCount (1 EV = 1px area)
-        // Area = PI * r^2  => r = sqrt(evCount / PI)
         const radius = Math.sqrt(d.evCount / Math.PI) * EV_BUBBLE_SCALE;
-
         g.append("circle")
           .attr("cx", x)
           .attr("cy", y)
@@ -155,9 +157,13 @@ const BubblePlotMap = ({ countyName, onClose }) => {
             setHoveredLocation(null);
             setHoveredType(null);
             setShowTooltip(false);
+          })
+          .on("click", () => {
+            openGoogleMaps(d.latitude, d.longitude);
           });
       }
     });
+
     const stationMarkerSize = STATION_MARKER_SIZE;
 
     stationData
@@ -171,7 +177,7 @@ const BubblePlotMap = ({ countyName, onClose }) => {
               `M 0 ${-stationMarkerSize} L ${stationMarkerSize} 0 L 0 ${stationMarkerSize} L ${-stationMarkerSize} 0 Z`
             )
             .attr("transform", `translate(${x},${y})`)
-            .attr("fill", "#FFD400")
+            .attr("fill", "var(--color-secondary)")
             .attr("opacity", 0.8)
             .style("cursor", "pointer")
             .attr("data-original-x", x)
@@ -192,6 +198,9 @@ const BubblePlotMap = ({ countyName, onClose }) => {
               setHoveredLocation(null);
               setHoveredType(null);
               setShowTooltip(false);
+            })
+            .on("click", () => {
+              openGoogleMaps(d.latitude, d.longitude);
             });
         }
       });
@@ -201,7 +210,6 @@ const BubblePlotMap = ({ countyName, onClose }) => {
       .scaleExtent([0.5, 8])
       .on("zoom", (event) => {
         g.attr("transform", event.transform);
-
         g.selectAll("circle[fill='var(--color-primary)']").attr(
           "r",
           function () {
@@ -211,28 +219,28 @@ const BubblePlotMap = ({ countyName, onClose }) => {
               : 0;
           }
         );
-
-        g.selectAll("path[fill='#FFD400']").attr("transform", function () {
-          const originalX = parseFloat(d3.select(this).attr("data-original-x"));
-          const originalY = parseFloat(d3.select(this).attr("data-original-y"));
-          return `translate(${originalX},${originalY}) scale(${1 / event.transform.k})`;
-        });
+        g.selectAll("path[fill='var(--color-secondary)']").attr(
+          "transform",
+          function () {
+            const originalX = parseFloat(
+              d3.select(this).attr("data-original-x")
+            );
+            const originalY = parseFloat(
+              d3.select(this).attr("data-original-y")
+            );
+            return `translate(${originalX},${originalY}) scale(${
+              1 / event.transform.k
+            })`;
+          }
+        );
       });
 
     svg.call(zoom);
-
     const initialTransform = d3.zoomIdentity
       .translate(offsetX, offsetY)
       .scale(1);
     svg.call(zoom.transform, initialTransform);
-  }, [
-    countyName,
-    normalizedEvData,
-    stationData,
-    locationCountMap,
-    dimensions,
-    // globalEvMax is removed as it's no longer used for EV sizing
-  ]);
+  }, [countyName, normalizedEvData, stationData, locationCountMap, dimensions]);
 
   const loading = evLoading || stationLoading || countLoading;
   const error = evError || stationError || countError;
@@ -260,7 +268,7 @@ const BubblePlotMap = ({ countyName, onClose }) => {
           Error: {error.message || String(error)}
         </div>
       ) : (
-        <div className="relative flex flex-col">
+        <div className="relative flex flex-col cursor-grab active:cursor-grabbing">
           <svg
             ref={svgRef}
             width={dimensions.width}
@@ -271,13 +279,19 @@ const BubblePlotMap = ({ countyName, onClose }) => {
           </svg>
           <div
             className="hidden md:block"
-            style={{ position: "absolute", bottom: -10, left: 10, zIndex: 10 }}
+            style={{ position: "absolute", bottom: 0, left: 10, zIndex: 10 }}
           >
             <BubblePlotMapLegend
               evBubbleScale={EV_BUBBLE_SCALE}
               stationMarkerSize={STATION_MARKER_SIZE}
             />
-          </div>{" "}
+          </div>
+          <div
+            className="hidden md:block"
+            style={{ position: "absolute", bottom: 0, right: 10, zIndex: 10 }}
+          >
+            <BubblePlotMapInfo />
+          </div>
         </div>
       )}
 
@@ -300,31 +314,48 @@ const BubblePlotMap = ({ countyName, onClose }) => {
         >
           {hoveredType === "ev" ? (
             <>
-              <div className="my-2 flex justify-center items-center bg-popover rounded-full p-2 w-fit h-fit">
-                <IconEV className="w-4 h-4" />
-              </div>
-              <div>
-                <strong>EV Location:</strong> {hoveredLocation.location}
-              </div>
-              <div>
-                <strong>EV Count:</strong> {hoveredLocation.evCount}
+              <div className="my-2 flex items-start gap-3">
+                <div className="flex justify-center items-center bg-popover rounded-full p-2 w-8 h-8">
+                  <IconEV className="w-4 h-4" />
+                </div>
+                <div>
+                  <div>
+                    <strong>EV Location:</strong> {hoveredLocation.location}
+                  </div>
+                  <div>
+                    <strong>EV Count:</strong> {hoveredLocation.evCount}
+                  </div>
+                  <small className="italic text-muted-foreground flex items-center mt-1">
+                    Click to open in Google Maps{" "}
+                    <SquareArrowOutUpRight className="inline w-3 h-3 ml-1" />
+                  </small>
+                </div>
               </div>
             </>
           ) : hoveredType === "station" ? (
             <>
-              <div className="my-2 flex justify-center items-center bg-popover rounded-full p-2 w-fit h-fit">
-                <IconCS className="w-4 h-4" />
-              </div>
-              <div>
-                <strong>Station:</strong>{" "}
-                {hoveredLocation.stationName || "Unknown"}
-              </div>
-              <div>
-                <strong>Network:</strong> {hoveredLocation.evNetwork || "N/A"}
-              </div>
-              <div>
-                <strong>Location:</strong> {hoveredLocation.longitude},{" "}
-                {hoveredLocation.latitude}
+              <div className="my-2 flex items-start gap-4">
+                <div className="flex justify-center items-center bg-popover rounded-full p-2 w-8 h-8 shrink-0">
+                  <IconCS className="w-4 h-4" />
+                </div>
+                <div className="flex flex-col gap-1 text-sm">
+                  <div>
+                    <strong>Station:</strong>{" "}
+                    {hoveredLocation.stationName || "Unknown"}
+                  </div>
+                  <div>
+                    <strong>Network:</strong>{" "}
+                    {hoveredLocation.evNetwork || "N/A"}
+                  </div>
+                  <div>
+                    <strong>Location:</strong> {hoveredLocation.longitude},{" "}
+                    {hoveredLocation.latitude}
+                  </div>
+                  <small className="italic text-muted-foreground flex items-center mt-1">
+                    Click to open in Google Maps
+                    <SquareArrowOutUpRight className="w-3 h-3 ml-1" />
+                  </small>
+                </div>
               </div>
             </>
           ) : null}
