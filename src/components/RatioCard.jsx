@@ -50,35 +50,36 @@ export default function RatioCard({ county = "WA" }) {
       textColor: "text-[var(--color-map-range-0)]",
     },
     1: {
-      icon: ThumbsUp,
-      fill: "fill-[var(--color-map-range-4)]",
-      text: "Good",
-      textColor: "text-[var(--color-map-range-4)]",
-    },
-    2: {
-      icon: TriangleAlert,
-      fill: "fill-[var(--color-map-range-3)]",
-      text: "Low Shortage",
-      textColor: "text-[var(--color-map-range-3)]",
-    },
-    3: {
-      icon: ShieldAlert,
-      fill: "fill-[var(--color-map-range-2)]",
-      text: "Mid Shortage",
-      textColor: "text-[var(--color-map-range-2)]",
-    },
-    4: {
       icon: IconOctagonAlert,
       fill: "fill-[var(--color-map-range-1)]",
       text: "High Shortage",
       textColor: "text-[var(--color-map-range-1)]",
     },
+    2: {
+      icon: ShieldAlert,
+      fill: "fill-[var(--color-map-range-2)]",
+      text: "Mid Shortage",
+      textColor: "text-[var(--color-map-range-2)]",
+    },
+    3: {
+      icon: TriangleAlert,
+      fill: "fill-[var(--color-map-range-3)]",
+      text: "Low Shortage",
+      textColor: "text-[var(--color-map-range-3)]",
+    },
+    4: {
+      icon: ThumbsUp,
+      fill: "fill-[var(--color-map-range-4)]",
+      text: "Good",
+      textColor: "text-[var(--color-map-range-4)]",
+    },
   };
 
-  const RatioIcon = stats[ratioClass].icon;
-  const RatioText = stats[ratioClass].text;
-  const iconFillClass = stats[ratioClass].fill;
-  const textColorClass = stats[ratioClass].textColor;
+  const ratioClassStr = String(ratioClass);
+  const RatioIcon = stats[ratioClassStr].icon;
+  const RatioText = stats[ratioClassStr].text;
+  const iconFillClass = stats[ratioClassStr].fill;
+  const textColorClass = stats[ratioClassStr].textColor;
 
   const StationText =
     stationCount === 1 || stationCount === 0 ? "Station" : "Stations";

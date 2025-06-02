@@ -36,7 +36,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
       circleFill: "#282828",
       label: "No Station",
     },
-    1: {
+    4: {
       IconComponent: (props) => (
         <ThumbsUp
           {...props}
@@ -48,7 +48,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
       circleFill: "#282828",
       label: "Good",
     },
-    2: {
+    3: {
       IconComponent: (props) => (
         <AlertTriangle
           {...props}
@@ -60,7 +60,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
       circleFill: "#282828",
       label: "Low Shortage",
     },
-    3: {
+    2: {
       IconComponent: (props) => (
         <ShieldAlert
           {...props}
@@ -72,7 +72,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
       circleFill: "#282828",
       label: "Mid Shortage",
     },
-    4: {
+    1: {
       IconComponent: (props) => (
         <IconOctagonAlert
           {...props}
@@ -397,7 +397,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
               )
                 return null;
 
-              const ratioClassKey = String(datum.ratioClass); // Ensure string key
+              const ratioClassKey = String(datum.ratioClass);
               const indicatorDetails =
                 indicatorConfig[ratioClassKey] || indicatorConfig.default;
               const {
@@ -411,9 +411,9 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
               if (highlightCategory) {
                 // If a category is hovered in RatioOverview
                 let categoryMatches = false;
-                if (highlightCategory === "high" && ratioClassKey === "4")
+                if (highlightCategory === "high" && ratioClassKey === "1")
                   categoryMatches = true;
-                else if (highlightCategory === "good" && ratioClassKey === "1")
+                else if (highlightCategory === "good" && ratioClassKey === "4")
                   categoryMatches = true;
                 else if (
                   highlightCategory === "unknown" &&
