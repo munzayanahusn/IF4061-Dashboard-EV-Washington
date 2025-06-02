@@ -1,8 +1,10 @@
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { TriangleAlert, ThumbsUp, CircleX } from "lucide-react";
+import { ThumbsUp, CircleX } from "lucide-react";
 import { useRatioOverview } from "@/hooks/useRatioOverview";
 import IconMidlow from "@/assets/icon-midlow.svg?react";
+import IconOctagonAlert from "@/assets/icon-octagon-alert.svg?react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const InfoCard = ({
   icon: Icon,
@@ -18,7 +20,7 @@ const InfoCard = ({
 }) => {
   return (
     <Card
-      className="w-full lg:w-fit p-4 cursor-default hover:bg-[#282828] transition-colors duration-200"
+      className="w-full lg:w-fit p-4 cursor-default hover:bg-popover transition-colors duration-200"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -50,16 +52,12 @@ export default function RatioOverview({ onHoverCategory }) {
   const { data, loading, error } = useRatioOverview();
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-32 text-white">
-        Loading Overview...
-      </div>
-    );
+    return <Skeleton className="h-22 w-full" />;
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-32 text-red-500">
+      <div className="flex justify-center items-center h-22 text-red-500">
         Error loading data: {error.message}
       </div>
     );
@@ -67,7 +65,7 @@ export default function RatioOverview({ onHoverCategory }) {
 
   if (!data) {
     return (
-      <div className="flex justify-center items-center h-32 text-white">
+      <div className="flex justify-center items-center h-22 text-white">
         No overview data available.
       </div>
     );
@@ -93,7 +91,7 @@ export default function RatioOverview({ onHoverCategory }) {
   const cardStats = [
     {
       id: "high",
-      icon: TriangleAlert,
+      icon: IconOctagonAlert,
       iconFillClass: "fill-[var(--color-map-range-1)]",
       value: highSeverity,
       textLine1: "High Shortage",
@@ -131,7 +129,7 @@ export default function RatioOverview({ onHoverCategory }) {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:flex xl:flex-nowrap lg:justify-start lg:items-start xl:justify-between">
+    <div className="grid grid-cols-1 gap-5.5 lg:flex xl:flex-nowrap lg:justify-start lg:items-start xl:justify-between">
       {cardStats.map((stat) => (
         <InfoCard
           key={stat.id}

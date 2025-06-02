@@ -3,10 +3,11 @@ import * as d3 from "d3";
 import bbox from "@turf/bbox";
 import mapJson from "../data/map/WA_map.json";
 import { useEVChargingCount } from "../hooks/useEVChargingCount";
-import { ThumbsUp, AlertTriangle, ShieldAlert, CircleX } from "lucide-react";
+import { ThumbsUp, AlertTriangle, CircleX } from "lucide-react";
 import IconOctagonAlert from "@/assets/icon-octagon-alert.svg?react";
+import IconDiamondAlert from "@/assets/icon-diamond-alert.svg?react";
 import IconMapLegend from "./IconMapLegend";
-
+import { PropagateLoader } from "react-spinners";
 const IconMap = ({ onCountyClick, highlightCategory }) => {
   const { data, loading, breaks, error } = useEVChargingCount();
   const ratioBreaks = breaks?.ratioBreaks || [];
@@ -62,10 +63,12 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
     },
     3: {
       IconComponent: (props) => (
-        <ShieldAlert
+        <IconDiamondAlert
           {...props}
           fill={props.color}
           stroke={indicatorConfig.commonStroke}
+          width={props.size}
+          height={props.size}
         />
       ),
       iconColor: "var(--color-map-range-2)",
@@ -100,8 +103,8 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
     },
   };
 
-  const ICON_CIRCLE_RADIUS = 12;
-  const LUCIDE_ICON_SIZE = 16;
+  const ICON_CIRCLE_RADIUS = 13;
+  const LUCIDE_ICON_SIZE = 18;
   const TOOLTIP_ICON_SIZE = 16;
   const ICON_GROUP_Y_OFFSET = 20;
   const LINE_TO_COUNTY_MARGIN = 2;
@@ -261,7 +264,7 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
           justifyContent: "center",
         }}
       >
-        Loading Map Data...
+        <PropagateLoader color="var(--color-primary)" />
       </div>
     );
   if (error)
@@ -553,6 +556,10 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
               Charging Stations: {hoveredCountyData.stationCount}
               <br />
               EV Count: {hoveredCountyData.evCount}
+              <br />
+              <small className="italic text-muted-foreground">
+                Click for more details
+              </small>
             </div>
           );
         })()}

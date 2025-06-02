@@ -8,12 +8,13 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useCountyList } from "@/hooks/useCountyList";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CountySelect({ selectedCounty, onSelectCounty }) {
   const { data, loading, error } = useCountyList();
   const [search, setSearch] = React.useState("");
 
-  if (loading) return <p>Loading counties...</p>;
+  if (loading) return <Skeleton className="h-[48px] w-[214px] rounded-md" />;
   if (error) return <p>Error loading counties: {error.message}</p>;
 
   const filtered = data.filter((c) =>

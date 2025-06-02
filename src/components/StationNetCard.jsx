@@ -16,6 +16,7 @@ import {
   ResponsiveContainer,
   LabelList,
 } from "recharts";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const COLORS = [
   "var(--color-chart-2, #FFC107)",
@@ -63,13 +64,7 @@ export default function StationNetCard({ county = "WA" }) {
   const placeholderHeight = "h-56";
 
   if (loading)
-    return (
-      <div
-        className={`text-center py-10 ${placeholderHeight} flex items-center justify-center w-full mx-auto rounded-xl bg-card shadow-lg`}
-      >
-        <p>Loading...</p>
-      </div>
-    );
+    return <Skeleton className={`${placeholderHeight} w-full max-w-5xl`} />;
   if (error)
     return (
       <div

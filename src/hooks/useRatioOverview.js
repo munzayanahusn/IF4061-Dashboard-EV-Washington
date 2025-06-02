@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import * as d3 from "d3";
+import { csv, autoType } from "d3";
+
+let _ratioOverviewData = null;
+let _ratioOverviewLoadPromise = null;
 
 export function useRatioOverview() {
   const [data, setData] = useState(null);
@@ -7,19 +10,46 @@ export function useRatioOverview() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
     const loadData = async () => {
+      if (!isMounted) return;
+      setLoading(true);
+      setError(null);
+
       try {
-        const rawData = await d3.csv("/data/ratio_overview.csv", d3.autoType);
-        setData(rawData);
-        setLoading(false);
+        if (_ratioOverviewData) {
+          if (isMounted) setData(_ratioOverviewData);
+        } else {
+          if (!_ratioOverviewLoadPromise) {
+            _ratioOverviewLoadPromise = csv(
+              "/data/ratio_overview.csv",
+              autoType
+            )
+              .then((rawData) => {
+                _ratioOverviewData = rawData;
+                return rawData;
+              })
+              .catch((err) => {
+                _ratioOverviewLoadPromise = null;
+                throw err;
+              });
+          }
+          const fetchedData = await _ratioOverviewLoadPromise;
+          if (isMounted) setData(fetchedData);
+        }
       } catch (err) {
         console.error("Failed to load ratio overview data:", err);
-        setError(err);
-        setLoading(false);
+        if (isMounted) setError(err);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
 
     loadData();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return { data, loading, error };

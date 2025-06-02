@@ -3,7 +3,6 @@ import { useEVTypeBreakdown } from "@/hooks/useEVTypeBreakdown";
 import { Info } from "lucide-react";
 import IconBEV from "@/assets/icon-bev.svg";
 import IconPHEV from "@/assets/icon-phev.svg";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Tooltip as UITooltip,
@@ -11,7 +10,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
 import {
   BarChart,
   Bar,
@@ -20,12 +18,12 @@ import {
   LabelList,
   ResponsiveContainer,
 } from "recharts";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EVTypCard({ county = "WA" }) {
   const { data, loading, error } = useEVTypeBreakdown();
 
-  if (loading)
-    return <div className="text-center py-12">Loading EV type data…</div>;
+  if (loading) return <Skeleton className="h-[160px] w-full max-w-5xl" />;
 
   if (error)
     return <div className="text-center text-red-500 py-12">{error}</div>;

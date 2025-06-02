@@ -3,9 +3,9 @@ import { useEVChargingCount } from "@/hooks/useEVChargingCount";
 import IconCs from "@/assets/icon-cs.svg";
 import IconEv from "@/assets/icon-ev.svg";
 import { Info } from "lucide-react";
-import { TriangleAlert, ThumbsUp, CircleX, ShieldAlert } from "lucide-react";
+import { TriangleAlert, ThumbsUp, CircleX } from "lucide-react";
 import IconOctagonAlert from "@/assets/icon-octagon-alert.svg?react";
-
+import IconDiamondAlert from "@/assets/icon-diamond-alert.svg?react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Tooltip,
@@ -13,12 +13,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function RatioCard({ county = "WA" }) {
   const { data, loading, error } = useEVChargingCount();
 
-  if (loading)
-    return <div className="text-center py-12">Loading ratio data…</div>;
+  if (loading) return <Skeleton className="h-[160px] w-full" />;
+
   if (error)
     return <div className="text-center text-red-500 py-12">{error}</div>;
   if (!data || data.length === 0) {
@@ -44,7 +45,7 @@ export default function RatioCard({ county = "WA" }) {
 
   const stats = {
     0: {
-      icon: TriangleAlert,
+      icon: CircleX,
       fill: "fill-[var(--color-map-range-0)]",
       text: "No Station",
       textColor: "text-[var(--color-map-range-0)]",
@@ -62,7 +63,7 @@ export default function RatioCard({ county = "WA" }) {
       textColor: "text-[var(--color-map-range-3)]",
     },
     3: {
-      icon: ShieldAlert,
+      icon: IconDiamondAlert,
       fill: "fill-[var(--color-map-range-2)]",
       text: "Mid Shortage",
       textColor: "text-[var(--color-map-range-2)]",
@@ -85,7 +86,7 @@ export default function RatioCard({ county = "WA" }) {
   const EVText = evCount === 1 || evCount === 0 ? "EV" : "EVs";
 
   return (
-    <Card className="w-full  gap-2">
+    <Card className="w-full gap-2">
       <CardHeader className="flex flex-row justify-start items-center gap-2">
         <CardTitle className="card-title text-left text-lg">
           Charger-to-EV Ratio
