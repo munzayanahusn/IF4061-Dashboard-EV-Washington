@@ -95,7 +95,7 @@ export default function TrendCard({ county = "WA" }) {
     return [0, maxVal === 0 ? "auto" : Math.ceil(maxVal * 1.1)];
   }, [filteredChartData, filter]);
 
-  if (loading) return <Skeleton className="h-[450px] w-full max-w-5xl" />;
+  if (loading) return <Skeleton className="h-[450px]" />;
   if (error)
     return <div className="text-center text-red-500 py-12">{error}</div>;
   if (!chartData || chartData.length === 0) {

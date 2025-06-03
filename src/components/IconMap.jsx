@@ -328,7 +328,6 @@ const IconMap = ({ onCountyClick, highlightCategory }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        maxWidth: "100%",
         minHeight: "240px",
       }}
     >

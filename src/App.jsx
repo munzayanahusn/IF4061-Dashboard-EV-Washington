@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 import RatioCard from "./components/RatioCard";
 import BivariateMap from "./components/BivariateMap";
 import ChoroplethMap from "./components/ChoroplethMap";
@@ -29,14 +28,14 @@ function App() {
   };
 
   return (
-    <div className="p-4 lg:p-6 m-6">
+    <div className="p-4 lg:p-6 m-6 w-fit">
       <div className="flex flex-col lg:flex-row lg:items-stretch gap-6 h-screen">
         {/* Left Column */}
         <div className="lg:flex-1 flex flex-col gap-6">
-          <div className="flex flex-col max-w-4xl gap-6">
+          <div className="flex flex-col lg:w-4xl gap-6">
             <div className="flex lg:flex-row flex-col gap-6">
               <div className="flex flex-col gap-4">
-                <h1 className="text-2xl xl:text-3xl font-normal w-64 xl:w-lg">
+                <h1 className="text-2xl lg:text-3xl font-normal w-64 lg:w-lg">
                   Electric Vehicle (EV) vs <br /> Charging Station Availability
                   in
                 </h1>
@@ -51,7 +50,7 @@ function App() {
               <RatioOverview onHoverCategory={setHoveredRatioCategory} />
             )}
           </div>
-          <div className="w-full h-full">
+          <div className="w-full h-full lg:w-4xl">
             {selectedCounty === "WA" ? (
               <IconMap
                 onCountyClick={handleCountyClick}
@@ -69,7 +68,7 @@ function App() {
           </div>
         </div>
         {/* Right Column */}
-        <div className="lg:w-1/3 flex flex-col gap-6 h-full">
+        <div className="flex flex-col gap-6 h-full min-w-sm pb-10 md:pb-0">
           <TrendCard county={selectedCounty} />
           <EVTypCard county={selectedCounty} />
           <StationNetCard county={selectedCounty} />

@@ -30,7 +30,7 @@ const InfoCard = ({
         />
         <div className="flex items-center space-x-2 sm:space-x-3">
           <p className="text-3xl text-white shrink-0">{value}</p>
-          <div className="text-left leading-tight lg:hidden xl:block">
+          <div className="text-left leading-tight block">
             <p
               className={`text-sm sm:text-base font-semibold ${textLine1ColorClass} whitespace-nowrap`}
             >
