@@ -12,8 +12,8 @@ import { BubblePlotMapLegend, BubblePlotMapInfo } from "./BubblePlotMapLegend";
 import { SquareArrowOutUpRight } from "lucide-react";
 
 // CONFIG
-const EV_BUBBLE_SCALE = 1; // Base radius for EV bubbles
-const STATION_MARKER_SIZE = 5; // Size for station markers
+const EV_BUBBLE_SCALE = 1.4; // Base radius for EV bubbles
+const STATION_MARKER_SIZE = 3.5; // Size for station markers
 
 const BubblePlotMap = ({ countyName, onClose }) => {
   const containerRef = useRef(null);
