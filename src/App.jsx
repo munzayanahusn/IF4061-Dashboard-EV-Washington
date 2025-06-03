@@ -30,7 +30,7 @@ function App() {
   };
 
   return (
-    <div className="relative m=0 p-0 w-fit overflow-hidden">
+    <div className="relative m=0 p-0 w-fit">
       <img
         src={BGDecor}
         alt="Background SVG Top Right"
@@ -79,6 +79,29 @@ function App() {
                 </div>
               )}
             </div>
+            <div className="z-10 text-center text-sm text-muted-foreground mt-12">
+              <p>
+                Data Sources:{" "}
+                <a
+                  href="https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2/about_data"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  EV Population
+                </a>{" "}
+                |{" "}
+                <a
+                  href="https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Charging Stations
+                </a>
+              </p>
+              <p>Last updated at May 16, 2025</p>
+            </div>
           </div>
           {/* Right Column */}
           <div className="flex flex-col gap-6 h-full min-w-sm pb-10 md:pb-0">
@@ -87,29 +110,6 @@ function App() {
             <StationNetCard county={selectedCounty} />
           </div>
         </div>
-        <footer className="absolute z-10 text-center text-sm text-muted-foreground bottom-2">
-          <p>
-            Data Sources:{" "}
-            <a
-              href="https://data.wa.gov/Transportation/Electric-Vehicle-Population-Data/f6w7-q2d2/about_data"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              EV Population
-            </a>{" "}
-            |{" "}
-            <a
-              href="https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/all/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              Charging Stations
-            </a>
-          </p>
-          <p>Last updated at May 16, 2025</p>
-        </footer>
       </div>
     </div>
   );
