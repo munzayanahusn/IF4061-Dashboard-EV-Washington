@@ -57,7 +57,7 @@ export function useEVChargingCount() {
         // const ratioBreaks = [0, 7.99, 12.00, ...upperBreaks.slice(1)];
 
         const ratioBreaks = [
-          0, 0.0045070610623309, 0.0213903743315508, 0.0422960725075528, 0.083,
+          0, 0.0045070610623309, 0.0203903743315508, 0.0412960725075528, 0.082,
           0.125,
         ];
 
