@@ -126,11 +126,19 @@ export default function TrendCard({ county = "WA" }) {
                   <Info className="w-4 h-4 text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent className="p-4 bg-popover text-popover-foreground max-w-sm">
-                  <small>
-                    This line chart shows the year-over-year growth of electric
-                    vehicles (EVs) and public charging stations in{" "}
-                    <strong>{county}</strong>.
-                  </small>
+                  {county === "WA" ? (
+                    <small>
+                      This line chart shows the <strong>overall</strong>{" "}
+                      year-over-year growth of electric vehicles (EVs) and
+                      public charging stations in Washington.
+                    </small>
+                  ) : (
+                    <small>
+                      This line chart shows the year-over-year growth of
+                      electric vehicles (EVs) and public charging stations in{" "}
+                      <strong>{county}</strong>.
+                    </small>
+                  )}
                 </TooltipContent>
               </UiTooltip>
             </TooltipProvider>

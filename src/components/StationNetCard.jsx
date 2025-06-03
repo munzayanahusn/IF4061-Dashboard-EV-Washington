@@ -116,10 +116,19 @@ export default function StationNetCard({ county = "WA" }) {
               <Info className="w-4 h-4 text-muted-foreground" />
             </TooltipTrigger>
             <TooltipContent className="w-xs p-4 bg-popover text-popover-foreground">
-              <small>
-                PHEV: Plug-in Hybrid Electric Vehicle. BEV: Battery Electric
-                Vehicle.
-              </small>
+              {county === "WA" ? (
+                <small>
+                  This stacked bar chart shows the <strong>overall</strong>{" "}
+                  distribution of <strong>3 major</strong> charging station
+                  network provider.
+                </small>
+              ) : (
+                <small>
+                  This stacked bar chart shows the distribution of{" "}
+                  <strong>3 major</strong> charging station network provider
+                  <strong>{county}</strong>
+                </small>
+              )}
             </TooltipContent>
           </UITooltip>
         </TooltipProvider>

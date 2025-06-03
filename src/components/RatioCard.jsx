@@ -97,12 +97,23 @@ export default function RatioCard({ county = "WA" }) {
             <TooltipTrigger>
               <Info className="w-4 h-4 text-muted-foreground" />
             </TooltipTrigger>
-            <TooltipContent className="w-xs p-4 bg-popover text-popover-foreground">
+            <TooltipContent className="flex flex-col w-xs p-4 bg-popover text-popover-foreground gap-2">
+              {county === "WA" ? (
+                <strong className="text-sm">
+                  This is the Overall Charger-to-EV ratio for the entire state
+                  of Washington.
+                </strong>
+              ) : (
+                <strong className="text-sm">
+                  This is the Charger-to-EV ratio for {county}.
+                </strong>
+              )}
+              <div className="border-t border-chart-3"></div>
               <small>
-                The Charger-to-EV ratio shows how many electric vehicles share
-                one charging station. The ideal range is{" "}
-                <span className="font-weight-bold">8–12</span> EVs per charger,
-                as recommended by SBD Automotive.
+                The Charger-to-EV ratio indicates the number of charging
+                stations available per electric vehicle. Based on SBD
+                Automotive's recommendation, the ideal range is{" "}
+                <strong>0.083</strong> to <strong>0.125</strong>.
               </small>
             </TooltipContent>
           </Tooltip>

@@ -73,10 +73,22 @@ export default function EVTypCard({ county = "WA" }) {
               <Info className="w-4 h-4 text-muted-foreground" />
             </TooltipTrigger>
             <TooltipContent className="w-xs p-4 bg-popover text-popover-foreground">
-              <small>
-                PHEV: Plug-in Hybrid Electric Vehicle. BEV: Battery Electric
-                Vehicle.
-              </small>
+              {county === "WA" ? (
+                <small>
+                  This stacked bar chart shows the <strong>overall</strong>{" "}
+                  distribution of electric vehicle types,{" "}
+                  <strong>Plug-in Hybrid Electric Vehicles (PHEV)</strong> and{" "}
+                  <strong>Battery Electric Vehicles (BEV)</strong>{" "}
+                </small>
+              ) : (
+                <small>
+                  This stacked bar chart shows the distribution of electric
+                  vehicle types,{" "}
+                  <strong>Plug-in Hybrid Electric Vehicles (PHEV)</strong> and{" "}
+                  <strong>Battery Electric Vehicles (BEV)</strong> in{" "}
+                  <strong>{county}</strong>
+                </small>
+              )}
             </TooltipContent>
           </UITooltip>
         </TooltipProvider>
