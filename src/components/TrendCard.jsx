@@ -113,7 +113,7 @@ export default function TrendCard({ county = "WA" }) {
   ];
 
   return (
-    <Card className="w-full h-[450px] max-w-5xl gap-2">
+    <Card className="w-full h-[600px] max-w-5xl gap-2">
       <CardHeader className="flex flex-col items-start justify-center">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
