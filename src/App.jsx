@@ -12,7 +12,8 @@ import IconMap from "./components/IconMap";
 import RatioOverview from "./components/RatioOverview";
 
 // Import your SVG files (example: assuming they are in an assets folder)
-import BGDecor from "@/assets/bg-decor.svg";
+import BGDecor1 from "@/assets/bg-decor1.svg";
+import BGDecor2 from "@/assets/bg-decor2.svg";
 function App() {
   const [selectedCounty, setSelectedCounty] = useState("WA");
   const [hoveredRatioCategory, setHoveredRatioCategory] = useState(null);
@@ -32,14 +33,14 @@ function App() {
   return (
     <div className="relative m=0 p-0 w-fit">
       <img
-        src={BGDecor}
+        src={BGDecor1}
         alt="Background SVG Top Right"
-        className="absolute -top-24 -right-24 w-80 h-80 z-0"
+        className="absolute top-0 right-0 w-80 h-80 z-0"
       />
       <img
-        src={BGDecor}
+        src={BGDecor2}
         alt="Background SVG Bottom Left"
-        className="absolute -bottom-24 -left-24 w-80 h-80 z-0"
+        className="absolute bottom-0 left-0 w-80 h-80 z-0"
       />
       <div className="p-10 w-fit relative">
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-stretch gap-6 h-screen">
